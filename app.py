@@ -19,7 +19,7 @@ import pandas as pd
 from PIL import Image
 import pymupdf
 
-# Core Engine Modules
+# Core Engine Modules (STRICTLY PRESERVED BACKEND MODULES)
 import auth_manager
 import database
 import decision_engine
@@ -40,7 +40,7 @@ import review_manager
 import report_generator
 
 # ---------------------------------------------------------------------------
-# STREAMLIT PAGE CONFIG & COMMERCIAL ENTERPRISE DESIGN SYSTEM
+# STREAMLIT PAGE CONFIG & ENTERPRISE DESIGN SYSTEM
 # ---------------------------------------------------------------------------
 
 st.set_page_config(
@@ -60,39 +60,43 @@ st.markdown(textwrap.dedent("""
         --primary-hover: #1D4ED8;
         --primary-active: #1E40AF;
         --primary-light: #EFF6FF;
-        --primary-glow: rgba(37, 99, 235, 0.22);
-        --dark-navy: #0B192C;
+        --primary-glow: rgba(37, 99, 235, 0.20);
+        --dark-navy: #142B59;
         --navy-surface: #1E3A8A;
         --secondary-blue: #60A5FA;
         --bg-main: #F5F8FF;
         --card-bg: #FFFFFF;
         --border-subtle: #E2E8F0;
         --border-hover: #CBD5E1;
-        --text-primary: #0F172A;
+        --text-primary: #172554;
         --text-secondary: #334155;
         --text-muted: #64748B;
-        --success: #10B981;
+        --success: #16A34A;
         --success-bg: #ECFDF5;
         --success-border: #A7F3D0;
         --warning: #F59E0B;
         --warning-bg: #FFFBEB;
         --warning-border: #FDE68A;
-        --danger: #EF4444;
+        --danger: #DC2626;
         --danger-bg: #FEF2F2;
         --danger-border: #FECACA;
         --radius-sm: 8px;
         --radius-md: 12px;
         --radius-lg: 16px;
         --radius-pill: 9999px;
-        --shadow-sm: 0 1px 2px 0 rgba(15, 23, 42, 0.05);
-        --shadow-card: 0 2px 8px -2px rgba(15, 23, 42, 0.05), 0 1px 4px -1px rgba(15, 23, 42, 0.03);
-        --shadow-hover: 0 10px 24px -4px rgba(37, 99, 235, 0.10), 0 4px 8px -2px rgba(15, 23, 42, 0.04);
-        --shadow-glow: 0 0 20px -3px rgba(37, 99, 235, 0.35);
+        --shadow-sm: 0 1px 3px rgba(20, 43, 89, 0.04);
+        --shadow-card: 0 2px 10px -2px rgba(20, 43, 89, 0.05), 0 1px 4px -1px rgba(20, 43, 89, 0.03);
+        --shadow-hover: 0 12px 28px -4px rgba(37, 99, 235, 0.12), 0 4px 10px -2px rgba(20, 43, 89, 0.05);
+        --shadow-glow: 0 0 24px -4px rgba(37, 99, 235, 0.35);
     }
 
     /* Global Base */
     html, body, [data-testid="stAppViewContainer"], .main {
         background-color: var(--bg-main) !important;
+        background-image: 
+            radial-gradient(circle at 10% 15%, rgba(37, 99, 235, 0.035) 0%, transparent 45%),
+            radial-gradient(circle at 90% 85%, rgba(96, 165, 250, 0.045) 0%, transparent 45%) !important;
+        background-attachment: fixed !important;
         font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
         color: var(--text-primary) !important;
         -webkit-font-smoothing: antialiased;
@@ -102,10 +106,10 @@ st.markdown(textwrap.dedent("""
     /* Refined Container Spacing */
     .block-container {
         padding-top: 1.5rem !important;
-        padding-bottom: 3rem !important;
+        padding-bottom: 3.5rem !important;
         padding-left: 2.25rem !important;
         padding-right: 2.25rem !important;
-        max-width: 1360px !important;
+        max-width: 1380px !important;
     }
 
     /* Minimal Top Header */
@@ -135,7 +139,7 @@ st.markdown(textwrap.dedent("""
         background-color: #FFFFFF !important;
         border-right: 1px solid var(--border-subtle) !important;
         padding-top: 1.25rem !important;
-        box-shadow: 2px 0 10px rgba(15, 23, 42, 0.02) !important;
+        box-shadow: 2px 0 12px rgba(20, 43, 89, 0.03) !important;
     }
 
     [data-testid="stSidebar"] [data-testid="stMarkdown"] h2 {
@@ -150,38 +154,38 @@ st.markdown(textwrap.dedent("""
         margin-bottom: 18px;
     }
     .brand-icon-box {
-        width: 38px;
-        height: 38px;
-        border-radius: 10px;
-        background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
+        width: 40px;
+        height: 40px;
+        border-radius: 11px;
+        background: linear-gradient(135deg, #142B59 0%, #2563EB 100%);
         display: flex;
         align-items: center;
         justify-content: center;
         color: #FFFFFF;
         font-size: 1.25rem;
-        box-shadow: 0 4px 10px rgba(37, 99, 235, 0.35);
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.30);
         flex-shrink: 0;
     }
     .brand-title {
-        font-size: 1.45rem;
+        font-size: 1.48rem;
         font-weight: 800;
         letter-spacing: -0.03em;
-        color: #1E40AF;
+        color: var(--primary);
         margin: 0;
         line-height: 1.1;
     }
     .brand-title span {
-        color: #0F172A;
+        color: var(--dark-navy);
     }
     .brand-tag {
         display: inline-block;
         background: #EFF6FF;
-        color: #2563EB;
+        color: var(--primary);
         font-size: 0.65rem;
         font-weight: 700;
         letter-spacing: 0.05em;
         text-transform: uppercase;
-        padding: 2px 6px;
+        padding: 2px 7px;
         border-radius: 4px;
         border: 1px solid #BFDBFE;
         margin-top: 3px;
@@ -199,7 +203,7 @@ st.markdown(textwrap.dedent("""
     }
     .sidebar-user-card:hover {
         border-color: #CBD5E1;
-        box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05);
+        box-shadow: 0 4px 14px rgba(20, 43, 89, 0.06);
     }
     .user-avatar-row {
         display: flex;
@@ -207,18 +211,18 @@ st.markdown(textwrap.dedent("""
         gap: 12px;
     }
     .user-avatar {
-        width: 36px;
-        height: 36px;
+        width: 38px;
+        height: 38px;
         border-radius: 50%;
-        background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%);
+        background: linear-gradient(135deg, #2563EB 0%, #142B59 100%);
         color: #FFFFFF;
         display: flex;
         align-items: center;
         justify-content: center;
         font-weight: 700;
-        font-size: 0.88rem;
+        font-size: 0.90rem;
         flex-shrink: 0;
-        box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
+        box-shadow: 0 2px 8px rgba(20, 43, 89, 0.22);
     }
     .user-details {
         overflow: hidden;
@@ -242,12 +246,12 @@ st.markdown(textwrap.dedent("""
     .user-role-badge {
         display: inline-flex;
         align-items: center;
-        gap: 4px;
-        padding: 3px 9px;
+        gap: 5px;
+        padding: 3px 10px;
         border-radius: 9999px;
         font-size: 0.70rem;
         font-weight: 700;
-        letter-spacing: 0.03em;
+        letter-spacing: 0.04em;
         margin-top: 8px;
     }
     .role-badge-admin {
@@ -269,7 +273,7 @@ st.markdown(textwrap.dedent("""
         padding: 24px 28px;
         box-shadow: var(--shadow-card);
         margin-bottom: 20px;
-        transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+        transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
     }
     .docv-card:hover {
         border-color: #CBD5E1;
@@ -281,7 +285,7 @@ st.markdown(textwrap.dedent("""
         background: #FFFFFF;
         border: 1px solid var(--border-subtle);
         border-radius: var(--radius-lg);
-        padding: 20px 24px;
+        padding: 22px 24px;
         box-shadow: var(--shadow-card);
         height: 100%;
         display: flex;
@@ -289,7 +293,7 @@ st.markdown(textwrap.dedent("""
         justify-content: space-between;
         position: relative;
         overflow: hidden;
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        transition: transform 0.22s ease, box-shadow 0.22s ease;
     }
     .docv-metric-card:hover {
         transform: translateY(-2px);
@@ -302,23 +306,23 @@ st.markdown(textwrap.dedent("""
         margin-bottom: 12px;
     }
     .metric-icon-wrap {
-        width: 38px;
-        height: 38px;
-        border-radius: 10px;
+        width: 40px;
+        height: 40px;
+        border-radius: 11px;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 1.15rem;
+        font-size: 1.20rem;
     }
     .docv-metric-value {
-        font-size: 2.25rem;
+        font-size: 2.30rem;
         font-weight: 800;
-        letter-spacing: -0.03em;
+        letter-spacing: -0.035em;
         color: var(--text-primary);
         line-height: 1.1;
     }
     .docv-metric-label {
-        font-size: 0.85rem;
+        font-size: 0.86rem;
         color: var(--text-muted);
         font-weight: 600;
         margin-top: 6px;
@@ -328,17 +332,17 @@ st.markdown(textwrap.dedent("""
         bottom: 0;
         left: 0;
         right: 0;
-        height: 3.5px;
+        height: 4px;
     }
 
     /* Welcome Hero Banner */
     .welcome-hero {
-        background: linear-gradient(135deg, #1E40AF 0%, #1D4ED8 60%, #3B82F6 100%);
+        background: linear-gradient(135deg, #142B59 0%, #1E3A8A 55%, #2563EB 100%);
         border-radius: var(--radius-lg);
-        padding: 28px 32px;
+        padding: 30px 36px;
         color: #FFFFFF;
         margin-bottom: 24px;
-        box-shadow: 0 10px 25px -5px rgba(37, 99, 235, 0.25);
+        box-shadow: 0 12px 30px -8px rgba(20, 43, 89, 0.35);
         position: relative;
         overflow: hidden;
     }
@@ -347,24 +351,24 @@ st.markdown(textwrap.dedent("""
         position: absolute;
         right: -30px;
         top: -40px;
-        width: 220px;
-        height: 220px;
+        width: 240px;
+        height: 240px;
         border-radius: 50%;
-        background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0) 70%);
+        background: radial-gradient(circle, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0) 70%);
         pointer-events: none;
     }
     .welcome-title {
-        font-size: 1.65rem;
+        font-size: 1.70rem;
         font-weight: 800;
-        letter-spacing: -0.02em;
+        letter-spacing: -0.025em;
         margin-bottom: 6px;
         color: #FFFFFF;
     }
     .welcome-desc {
-        font-size: 0.95rem;
+        font-size: 0.96rem;
         color: #DBEAFE;
-        max-width: 720px;
-        line-height: 1.5;
+        max-width: 740px;
+        line-height: 1.55;
         margin: 0;
     }
 
@@ -380,7 +384,7 @@ st.markdown(textwrap.dedent("""
         align-items: center;
         gap: 6px;
         border: 1px solid var(--success-border);
-        box-shadow: 0 1px 2px rgba(16, 185, 129, 0.1);
+        box-shadow: 0 1px 2px rgba(22, 163, 74, 0.12);
     }
     .status-badge-review {
         background-color: var(--warning-bg);
@@ -393,7 +397,7 @@ st.markdown(textwrap.dedent("""
         align-items: center;
         gap: 6px;
         border: 1px solid var(--warning-border);
-        box-shadow: 0 1px 2px rgba(245, 158, 11, 0.1);
+        box-shadow: 0 1px 2px rgba(245, 158, 11, 0.12);
     }
     .status-badge-inconsistent {
         background-color: var(--danger-bg);
@@ -406,7 +410,7 @@ st.markdown(textwrap.dedent("""
         align-items: center;
         gap: 6px;
         border: 1px solid var(--danger-border);
-        box-shadow: 0 1px 2px rgba(239, 68, 68, 0.1);
+        box-shadow: 0 1px 2px rgba(220, 38, 38, 0.12);
     }
     .status-badge-unable {
         background-color: #F1F5F9;
@@ -424,13 +428,13 @@ st.markdown(textwrap.dedent("""
     /* Regulatory Notice Box */
     .regulatory-box {
         background: #FFFFFF;
-        border-left: 4px solid #3B82F6;
+        border-left: 4px solid var(--primary);
         border-top: 1px solid var(--border-subtle);
         border-right: 1px solid var(--border-subtle);
         border-bottom: 1px solid var(--border-subtle);
         padding: 16px 20px;
         border-radius: var(--radius-md);
-        color: #1E3A8A;
+        color: var(--dark-navy);
         font-size: 0.86rem;
         line-height: 1.55;
         margin: 22px 0 14px 0;
@@ -449,8 +453,8 @@ st.markdown(textwrap.dedent("""
         letter-spacing: -0.01em !important;
     }
     button[kind="primary"]:hover {
-        background: linear-gradient(135deg, #1D4ED8 0%, #1E40AF 100%) !important;
-        box-shadow: 0 6px 16px rgba(37, 99, 235, 0.4) !important;
+        background: linear-gradient(135deg, #1D4ED8 0%, #142B59 100%) !important;
+        box-shadow: 0 6px 18px rgba(37, 99, 235, 0.4) !important;
         transform: translateY(-1px) !important;
     }
     button[kind="primary"]:active {
@@ -520,7 +524,7 @@ st.markdown(textwrap.dedent("""
     [data-testid="stRadio"] div[role="radiogroup"] > label:has(input:checked) {
         background: #FFFFFF !important;
         color: var(--primary) !important;
-        box-shadow: 0 1px 4px rgba(15, 23, 42, 0.08) !important;
+        box-shadow: 0 1px 4px rgba(20, 43, 89, 0.08) !important;
     }
 
     /* Sidebar Radio Navigation */
@@ -532,7 +536,7 @@ st.markdown(textwrap.dedent("""
         gap: 6px !important;
     }
     [data-testid="stSidebar"] [data-testid="stRadio"] div[role="radiogroup"] > label {
-        padding: 9px 14px !important;
+        padding: 10px 14px !important;
         border-radius: 10px !important;
         font-size: 0.90rem !important;
         color: #334155 !important;
@@ -553,7 +557,7 @@ st.markdown(textwrap.dedent("""
 
     /* ---- Split-Screen Auth Layout ---- */
     .auth-hero-banner {
-        background: linear-gradient(135deg, #09122C 0%, #112D4E 40%, #19376D 75%, #2563EB 100%);
+        background: linear-gradient(145deg, #142B59 0%, #19376D 50%, #2563EB 100%);
         border-radius: var(--radius-lg);
         padding: 42px 36px;
         color: #FFFFFF;
@@ -561,7 +565,7 @@ st.markdown(textwrap.dedent("""
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        box-shadow: 0 20px 40px -15px rgba(15, 23, 42, 0.25);
+        box-shadow: 0 24px 48px -12px rgba(20, 43, 89, 0.35);
         position: relative;
         overflow: hidden;
     }
@@ -582,7 +586,7 @@ st.markdown(textwrap.dedent("""
         backdrop-filter: blur(8px);
     }
     .auth-brand-logo {
-        font-size: 2.35rem;
+        font-size: 2.40rem;
         font-weight: 900;
         letter-spacing: -0.04em;
         color: #FFFFFF;
@@ -590,7 +594,7 @@ st.markdown(textwrap.dedent("""
         margin-bottom: 8px;
     }
     .auth-brand-logo span {
-        color: #60A5FA;
+        color: var(--secondary-blue);
     }
     .auth-tagline {
         font-size: 0.96rem;
@@ -601,7 +605,7 @@ st.markdown(textwrap.dedent("""
     }
     .auth-feature-glass {
         background: rgba(255, 255, 255, 0.08);
-        border: 1px solid rgba(255, 255, 255, 0.14);
+        border: 1px solid rgba(255, 255, 255, 0.15);
         border-radius: var(--radius-md);
         padding: 12px 16px;
         margin-bottom: 10px;
@@ -612,7 +616,7 @@ st.markdown(textwrap.dedent("""
         transition: transform 0.2s ease, background 0.2s ease;
     }
     .auth-feature-glass:hover {
-        background: rgba(255, 255, 255, 0.12);
+        background: rgba(255, 255, 255, 0.13);
         transform: translateX(4px);
     }
     .auth-feature-glass strong {
@@ -620,8 +624,8 @@ st.markdown(textwrap.dedent("""
     }
     .auth-trust-box {
         margin-top: 24px;
-        background: rgba(15, 23, 42, 0.45);
-        border: 1px solid rgba(255, 255, 255, 0.16);
+        background: rgba(20, 43, 89, 0.55);
+        border: 1px solid rgba(255, 255, 255, 0.18);
         border-radius: var(--radius-sm);
         padding: 12px 16px;
         font-size: 0.80rem;
@@ -686,7 +690,7 @@ st.markdown(textwrap.dedent("""
         display: inline-block;
         width: 8px;
         height: 8px;
-        background: #10B981;
+        background: var(--success);
         border-radius: 50%;
     }
     .system-online-dot::after {
@@ -697,7 +701,7 @@ st.markdown(textwrap.dedent("""
         width: 14px;
         height: 14px;
         border-radius: 50%;
-        border: 2px solid #10B981;
+        border: 2px solid var(--success);
         opacity: 0.7;
         animation: radarPulse 2s cubic-bezier(0.24, 0, 0.38, 1) infinite;
     }
@@ -750,13 +754,13 @@ st.markdown(textwrap.dedent("""
         background: #F8FAFC;
         border: 2px dashed #CBD5E1;
         border-radius: var(--radius-md);
-        padding: 18px 20px;
+        padding: 20px 22px;
         text-align: center;
         margin-bottom: 14px;
         transition: all 0.2s ease;
     }
     .upload-zone-hint:hover {
-        border-color: #3B82F6;
+        border-color: var(--primary);
         background: #EFF6FF;
     }
 
@@ -857,8 +861,8 @@ def render_authentication_view():
             '<rect x="42" y="65" width="118" height="5" rx="2.5" fill="#DBEAFE" fill-opacity="0.8"/>'
             '<rect x="42" y="78" width="95" height="5" rx="2.5" fill="#DBEAFE" fill-opacity="0.8"/>'
             '<!-- Credential Seal Pill -->'
-            '<rect x="42" y="96" width="136" height="24" rx="6" fill="#1E3A8A" stroke="#3B82F6" stroke-width="1.2"/>'
-            '<circle cx="56" cy="108" r="5" fill="#10B981"/>'
+            '<rect x="42" y="96" width="136" height="24" rx="6" fill="#142B59" stroke="#3B82F6" stroke-width="1.2"/>'
+            '<circle cx="56" cy="108" r="5" fill="#16A34A"/>'
             '<rect x="68" y="105" width="60" height="6" rx="3" fill="#93C5FD"/>'
             '<!-- Animated Laser Scanning Beam -->'
             '<g class="scan-beam-line">'
@@ -867,7 +871,7 @@ def render_authentication_view():
             '</g>'
             '<!-- Enterprise Verification Badge Shield -->'
             '<circle cx="230" cy="100" r="38" fill="#1E40AF" stroke="#60A5FA" stroke-width="2.5"/>'
-            '<circle cx="230" cy="100" r="30" fill="#1D4ED8"/>'
+            '<circle cx="230" cy="100" r="30" fill="#142B59"/>'
             '<path d="M216 100L226 110L245 90" stroke="#34D399" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>'
             '</svg>'
         )
@@ -876,7 +880,7 @@ def render_authentication_view():
 <div class="auth-hero-banner">
 <div>
 <div class="auth-badge-pill">
-<span class="system-online-dot"></span> ENTERPRISE AI VERIFICATION
+<span class="system-online-dot"></span> BANK-GRADE AI VERIFICATION
 </div>
 <div class="auth-brand-logo">Doc<span>Verify</span></div>
 <div class="auth-tagline">Automated Document Verification &amp; Consistency Review Platform</div>
@@ -895,7 +899,7 @@ def render_authentication_view():
 </div>
 </div>
 <div class="auth-trust-box">
-🔒 <strong>Bank-Grade Security:</strong> PBKDF2-HMAC-SHA256 password hashing with unique random salts &amp; strict multi-tenant tenant isolation.
+🔒 <strong>Enterprise Security Architecture:</strong> PBKDF2-HMAC-SHA256 password hashing with unique random salts &amp; strict multi-tenant tenant isolation.
 </div>
 </div>
 """).strip()
@@ -1260,14 +1264,14 @@ if not is_admin and active_nav == "Dashboard":
         st.markdown(textwrap.dedent(f"""
 <div class="docv-metric-card">
     <div class="metric-header">
-        <div class="metric-icon-wrap" style="background: #ECFDF5; color: #10B981;">✅</div>
-        <span style="font-size: 0.72rem; font-weight: 700; color: #10B981; background: #ECFDF5; padding: 2px 8px; border-radius: 9999px;">PASSED</span>
+        <div class="metric-icon-wrap" style="background: #ECFDF5; color: #16A34A;">✅</div>
+        <span style="font-size: 0.72rem; font-weight: 700; color: #16A34A; background: #ECFDF5; padding: 2px 8px; border-radius: 9999px;">PASSED</span>
     </div>
     <div>
-        <div class="docv-metric-value" style="color: #065F46;">{passed_docs}</div>
+        <div class="docv-metric-value" style="color: #16A34A;">{passed_docs}</div>
         <div class="docv-metric-label">Consistency Passed</div>
     </div>
-    <div class="metric-bottom-bar" style="background: #10B981;"></div>
+    <div class="metric-bottom-bar" style="background: #16A34A;"></div>
 </div>
 """).strip(), unsafe_allow_html=True)
     with m3:
@@ -1278,7 +1282,7 @@ if not is_admin and active_nav == "Dashboard":
         <span style="font-size: 0.72rem; font-weight: 700; color: #F59E0B; background: #FFFBEB; padding: 2px 8px; border-radius: 9999px;">REVIEW</span>
     </div>
     <div>
-        <div class="docv-metric-value" style="color: #92400E;">{review_docs}</div>
+        <div class="docv-metric-value" style="color: #F59E0B;">{review_docs}</div>
         <div class="docv-metric-label">Needs Manual Review</div>
     </div>
     <div class="metric-bottom-bar" style="background: #F59E0B;"></div>
@@ -1288,14 +1292,14 @@ if not is_admin and active_nav == "Dashboard":
         st.markdown(textwrap.dedent(f"""
 <div class="docv-metric-card">
     <div class="metric-header">
-        <div class="metric-icon-wrap" style="background: #FEF2F2; color: #EF4444;">⚠️</div>
-        <span style="font-size: 0.72rem; font-weight: 700; color: #EF4444; background: #FEF2F2; padding: 2px 8px; border-radius: 9999px;">ISSUES</span>
+        <div class="metric-icon-wrap" style="background: #FEF2F2; color: #DC2626;">⚠️</div>
+        <span style="font-size: 0.72rem; font-weight: 700; color: #DC2626; background: #FEF2F2; padding: 2px 8px; border-radius: 9999px;">ISSUES</span>
     </div>
     <div>
-        <div class="docv-metric-value" style="color: #991B1B;">{inconsistent_docs}</div>
+        <div class="docv-metric-value" style="color: #DC2626;">{inconsistent_docs}</div>
         <div class="docv-metric-label">Inconsistencies Detected</div>
     </div>
-    <div class="metric-bottom-bar" style="background: #EF4444;"></div>
+    <div class="metric-bottom-bar" style="background: #DC2626;"></div>
 </div>
 """).strip(), unsafe_allow_html=True)
 
@@ -1306,7 +1310,7 @@ if not is_admin and active_nav == "Dashboard":
         empty_box = textwrap.dedent("""
 <div class="docv-card" style="text-align: center; padding: 56px 28px; margin-top: 10px;">
     <div style="font-size: 2.8rem; margin-bottom: 12px;">📁</div>
-    <div style="font-size: 1.3rem; font-weight: 800; color: #0F172A;">No credentials submitted yet</div>
+    <div style="font-size: 1.3rem; font-weight: 800; color: #172554;">No credentials submitted yet</div>
     <div style="font-size: 0.92rem; color: #64748B; margin-top: 6px; max-width: 520px; margin-left: auto; margin-right: auto; line-height: 1.5;">
         Upload your educational degrees, identity credentials, or government certificates to run automated Tesseract OCR, production schema validation, and consistency checks.
     </div>
@@ -1407,9 +1411,9 @@ elif not is_admin and active_nav == "Upload Document":
         
         st.markdown(textwrap.dedent("""
 <div class="upload-zone-hint">
-    <div style="font-size: 1.4rem; margin-bottom: 4px;">☁️</div>
-    <div style="font-weight: 700; font-size: 0.92rem; color: #1E293B;">Drag and drop your file here</div>
-    <div style="font-size: 0.78rem; color: #64748B; margin-top: 2px;">Supported: PDF, PNG, JPG, JPEG &bull; Max: 10MB</div>
+    <div style="font-size: 1.6rem; margin-bottom: 4px;">☁️</div>
+    <div style="font-weight: 700; font-size: 0.95rem; color: #172554;">Drag and drop your file here</div>
+    <div style="font-size: 0.80rem; color: #64748B; margin-top: 2px;">Supported: PDF, PNG, JPG, JPEG &bull; Max: 10MB</div>
 </div>
 """).strip(), unsafe_allow_html=True)
 
@@ -1653,7 +1657,7 @@ elif not is_admin and active_nav == "Upload Document":
         <div>{badge_html}</div>
         <div style="font-size: 0.85rem; color: #64748B;">Report Ref: <code style="background: #F1F5F9; padding: 2px 8px; border-radius: 4px; font-weight: 600;">{lp['report_ref']}</code></div>
     </div>
-    <div style="font-size: 1.15rem; font-weight: 750; color: #0F172A; margin-bottom: 8px; line-height: 1.4;">
+    <div style="font-size: 1.15rem; font-weight: 750; color: #172554; margin-bottom: 8px; line-height: 1.4;">
         {outcome.simple_explanation}
     </div>
     <div style="font-size: 0.88rem; color: #475569; background: #F8FAFC; border: 1px solid #E2E8F0; padding: 10px 14px; border-radius: 8px;">
@@ -1674,7 +1678,7 @@ elif not is_admin and active_nav == "Upload Document":
                 adv = getattr(outcome, 'uncertainty_advice', 'Auto-finalized. No manual delay required.')
                 st.markdown(textwrap.dedent(f"""
 <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; padding: 8px 12px; font-size: 0.82rem; margin-top: 4px;">
-    <strong style="color: #1E293B;">🧭 {quad}</strong><br/>
+    <strong style="color: #172554;">🧭 {quad}</strong><br/>
     <span style="color: #64748B;">{adv}</span>
 </div>
 """).strip(), unsafe_allow_html=True)
@@ -1758,7 +1762,7 @@ elif not is_admin and active_nav == "Upload Document":
             empty_analysis = textwrap.dedent("""
 <div class="docv-card" style="text-align: center; padding: 48px 24px; color: #64748B;">
     <div style="font-size: 2.2rem; margin-bottom: 8px;">⚙️</div>
-    <div style="font-size: 1.15rem; font-weight: 700; color: #0F172A;">Ready for Document Ingestion</div>
+    <div style="font-size: 1.15rem; font-weight: 700; color: #172554;">Ready for Document Ingestion</div>
     <div style="font-size: 0.88rem; margin-top: 6px; max-width: 440px; margin-left: auto; margin-right: auto; line-height: 1.5;">
         Select a category, upload your document file or test preset, and click <strong>"Verify Document Consistency"</strong> to launch the AI audit pipeline.
     </div>
@@ -1845,7 +1849,7 @@ elif not is_admin and active_nav == "Verification Reports":
 <div class="docv-card">
     <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
         <div>
-            <div style="font-weight: 750; font-size: 1.1rem; color: #0F172A;">{r['filename']}</div>
+            <div style="font-weight: 750; font-size: 1.1rem; color: #172554;">{r['filename']}</div>
             <div style="font-size: 0.86rem; color: #64748B; margin-top: 3px;">
                 Category: <strong>{r['declared_category']}</strong> &nbsp;|&nbsp; Status: <code>{r['final_status']}</code>
             </div>
@@ -1949,7 +1953,7 @@ elif is_admin and active_nav == "Overview":
         <span style="font-size: 0.72rem; font-weight: 700; color: #DC2626; background: #FEF2F2; padding: 2px 8px; border-radius: 9999px;">QUEUE</span>
     </div>
     <div>
-        <div class="docv-metric-value" style="color: #991B1B;">{stats['pending_admin_reviews']}</div>
+        <div class="docv-metric-value" style="color: #DC2626;">{stats['pending_admin_reviews']}</div>
         <div class="docv-metric-label">Pending Officer Reviews</div>
     </div>
     <div class="metric-bottom-bar" style="background: #DC2626;"></div>
@@ -1973,28 +1977,28 @@ elif is_admin and active_nav == "Overview":
         st.markdown(textwrap.dedent(f"""
 <div class="docv-metric-card">
     <div class="metric-header">
-        <div class="metric-icon-wrap" style="background: #ECFDF5; color: #10B981;">✅</div>
-        <span style="font-size: 0.72rem; font-weight: 700; color: #10B981; background: #ECFDF5; padding: 2px 8px; border-radius: 9999px;">PASSED</span>
+        <div class="metric-icon-wrap" style="background: #ECFDF5; color: #16A34A;">✅</div>
+        <span style="font-size: 0.72rem; font-weight: 700; color: #16A34A; background: #ECFDF5; padding: 2px 8px; border-radius: 9999px;">PASSED</span>
     </div>
     <div>
-        <div class="docv-metric-value" style="color: #065F46;">{stats['consistent_documents']}</div>
+        <div class="docv-metric-value" style="color: #16A34A;">{stats['consistent_documents']}</div>
         <div class="docv-metric-label">Verified Consistent</div>
     </div>
-    <div class="metric-bottom-bar" style="background: #10B981;"></div>
+    <div class="metric-bottom-bar" style="background: #16A34A;"></div>
 </div>
 """).strip(), unsafe_allow_html=True)
     with a4:
         st.markdown(textwrap.dedent(f"""
 <div class="docv-metric-card">
     <div class="metric-header">
-        <div class="metric-icon-wrap" style="background: #EFF6FF; color: #1E40AF;">👥</div>
-        <span style="font-size: 0.72rem; font-weight: 700; color: #1E40AF; background: #EFF6FF; padding: 2px 8px; border-radius: 9999px;">USERS</span>
+        <div class="metric-icon-wrap" style="background: #EFF6FF; color: #142B59;">👥</div>
+        <span style="font-size: 0.72rem; font-weight: 700; color: #142B59; background: #EFF6FF; padding: 2px 8px; border-radius: 9999px;">USERS</span>
     </div>
     <div>
-        <div class="docv-metric-value" style="color: #1E40AF;">{stats['total_users']}</div>
+        <div class="docv-metric-value" style="color: #142B59;">{stats['total_users']}</div>
         <div class="docv-metric-label">Registered Accounts</div>
     </div>
-    <div class="metric-bottom-bar" style="background: #1E40AF;"></div>
+    <div class="metric-bottom-bar" style="background: #142B59;"></div>
 </div>
 """).strip(), unsafe_allow_html=True)
 
@@ -2002,7 +2006,7 @@ elif is_admin and active_nav == "Overview":
 
     st.markdown(textwrap.dedent("""
 <div class="docv-card">
-    <h4 style="margin-top: 0; color: #0F172A; font-weight: 750;">AI-First Selective Escalation Architecture</h4>
+    <h4 style="margin-top: 0; color: #172554; font-weight: 750;">AI-First Selective Escalation Architecture</h4>
     <p style="color: #475569; font-size: 0.92rem; line-height: 1.55;">
         DocVerify processes clean documents automatically without imposing administrative delay on straightforward applicants:
     </p>
@@ -2040,8 +2044,8 @@ elif is_admin and active_nav == "Pending Reviews":
         if doc:
             st.markdown(textwrap.dedent(f"""
 <div class="docv-card" style="margin-top: 10px;">
-    <div style="font-weight: 750; font-size: 1.15rem; color: #0F172A;">Dossier: {doc['filename']} (#{doc['id']})</div>
-    <div style="font-size: 0.88rem; color: #991B1B; margin-top: 4px;">
+    <div style="font-weight: 750; font-size: 1.15rem; color: #172554;">Dossier: {doc['filename']} (#{doc['id']})</div>
+    <div style="font-size: 0.88rem; color: #DC2626; margin-top: 4px;">
         <strong>Escalation Reason:</strong> {doc.get('escalation_reason') or 'Flagged for Officer Review'}
     </div>
 </div>
@@ -2276,14 +2280,14 @@ elif is_admin and active_nav == "System Analytics":
         st.markdown(textwrap.dedent(f"""
 <div class="docv-metric-card">
     <div class="metric-header">
-        <div class="metric-icon-wrap" style="background: #ECFDF5; color: #10B981;">📈</div>
-        <span style="font-size: 0.72rem; font-weight: 700; color: #10B981; background: #ECFDF5; padding: 2px 8px; border-radius: 9999px;">PRECISION</span>
+        <div class="metric-icon-wrap" style="background: #ECFDF5; color: #16A34A;">📈</div>
+        <span style="font-size: 0.72rem; font-weight: 700; color: #16A34A; background: #ECFDF5; padding: 2px 8px; border-radius: 9999px;">PRECISION</span>
     </div>
     <div>
-        <div class="docv-metric-value" style="color: #065F46;">{eval_data['proposed_metrics']['Precision']*100:.1f}%</div>
+        <div class="docv-metric-value" style="color: #16A34A;">{eval_data['proposed_metrics']['Precision']*100:.1f}%</div>
         <div class="docv-metric-label">Weighted Precision</div>
     </div>
-    <div class="metric-bottom-bar" style="background: #10B981;"></div>
+    <div class="metric-bottom-bar" style="background: #16A34A;"></div>
 </div>
 """).strip(), unsafe_allow_html=True)
     with col_m3:
