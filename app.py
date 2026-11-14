@@ -1,6 +1,6 @@
 """
 DocVerify – Automated Document Verification and Consistency Review System.
-Commercial SaaS Web Application.
+Commercial Enterprise SaaS Web Application.
 
 Provides automated information extraction, schema validation, explainable production
 rule checks, supervised machine learning classification, human-in-the-loop escalation,
@@ -40,307 +40,765 @@ import review_manager
 import report_generator
 
 # ---------------------------------------------------------------------------
-# STREAMLIT PAGE CONFIG & COMMERCIAL LIGHT-THEME DESIGN SYSTEM
+# STREAMLIT PAGE CONFIG & COMMERCIAL ENTERPRISE DESIGN SYSTEM
 # ---------------------------------------------------------------------------
 
 st.set_page_config(
-    page_title="DocVerify | Document Verification & Consistency Platform",
-    page_icon="📄",
+    page_title="DocVerify | Enterprise Document Verification & Consistency Platform",
+    page_icon="🛡️",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# Custom Commercial SaaS CSS - Clean Light Theme with ZERO excess whitespace
+# Custom Enterprise SaaS CSS - Premium Linear/Stripe/Vercel Aesthetic
 st.markdown(textwrap.dedent("""
 <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+    :root {
+        --primary: #2563EB;
+        --primary-hover: #1D4ED8;
+        --primary-active: #1E40AF;
+        --primary-light: #EFF6FF;
+        --primary-glow: rgba(37, 99, 235, 0.22);
+        --dark-navy: #0B192C;
+        --navy-surface: #1E3A8A;
+        --secondary-blue: #60A5FA;
+        --bg-main: #F5F8FF;
+        --card-bg: #FFFFFF;
+        --border-subtle: #E2E8F0;
+        --border-hover: #CBD5E1;
+        --text-primary: #0F172A;
+        --text-secondary: #334155;
+        --text-muted: #64748B;
+        --success: #10B981;
+        --success-bg: #ECFDF5;
+        --success-border: #A7F3D0;
+        --warning: #F59E0B;
+        --warning-bg: #FFFBEB;
+        --warning-border: #FDE68A;
+        --danger: #EF4444;
+        --danger-bg: #FEF2F2;
+        --danger-border: #FECACA;
+        --radius-sm: 8px;
+        --radius-md: 12px;
+        --radius-lg: 16px;
+        --radius-pill: 9999px;
+        --shadow-sm: 0 1px 2px 0 rgba(15, 23, 42, 0.05);
+        --shadow-card: 0 2px 8px -2px rgba(15, 23, 42, 0.05), 0 1px 4px -1px rgba(15, 23, 42, 0.03);
+        --shadow-hover: 0 10px 24px -4px rgba(37, 99, 235, 0.10), 0 4px 8px -2px rgba(15, 23, 42, 0.04);
+        --shadow-glow: 0 0 20px -3px rgba(37, 99, 235, 0.35);
+    }
+
     /* Global Base */
     html, body, [data-testid="stAppViewContainer"], .main {
-        background-color: #F8FAFC !important;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-        color: #0F172A;
+        background-color: var(--bg-main) !important;
+        font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+        color: var(--text-primary) !important;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
     }
 
-    /* Remove excessive top blank space */
+    /* Refined Container Spacing */
     .block-container {
-        padding-top: 1.25rem !important;
-        padding-bottom: 2.5rem !important;
-        padding-left: 2rem !important;
-        padding-right: 2rem !important;
-        max-width: 1280px !important;
+        padding-top: 1.5rem !important;
+        padding-bottom: 3rem !important;
+        padding-left: 2.25rem !important;
+        padding-right: 2.25rem !important;
+        max-width: 1360px !important;
     }
 
+    /* Minimal Top Header */
     [data-testid="stHeader"] {
         background: transparent !important;
         height: 1.5rem !important;
     }
 
-    [data-testid="stSidebar"] {
-        background-color: #FFFFFF !important;
-        border-right: 1px solid #E2E8F0;
-        padding-top: 1.5rem;
+    /* Custom Sleek Scrollbar */
+    ::-webkit-scrollbar {
+        width: 7px;
+        height: 7px;
+    }
+    ::-webkit-scrollbar-track {
+        background: #F1F5F9;
+    }
+    ::-webkit-scrollbar-thumb {
+        background: #CBD5E1;
+        border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+        background: #94A3B8;
     }
 
-    /* Brand Header */
+    /* Sidebar Styling */
+    [data-testid="stSidebar"] {
+        background-color: #FFFFFF !important;
+        border-right: 1px solid var(--border-subtle) !important;
+        padding-top: 1.25rem !important;
+        box-shadow: 2px 0 10px rgba(15, 23, 42, 0.02) !important;
+    }
+
+    [data-testid="stSidebar"] [data-testid="stMarkdown"] h2 {
+        margin-top: 0 !important;
+    }
+
+    /* Brand Logo & Header */
+    .brand-container {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 18px;
+    }
+    .brand-icon-box {
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
+        background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #FFFFFF;
+        font-size: 1.25rem;
+        box-shadow: 0 4px 10px rgba(37, 99, 235, 0.35);
+        flex-shrink: 0;
+    }
     .brand-title {
-        font-size: 1.55rem;
+        font-size: 1.45rem;
         font-weight: 800;
-        letter-spacing: -0.025em;
+        letter-spacing: -0.03em;
         color: #1E40AF;
         margin: 0;
-        display: inline-block;
+        line-height: 1.1;
     }
     .brand-title span {
         color: #0F172A;
     }
-    .brand-subtitle {
-        font-size: 0.8rem;
-        color: #64748B;
-        margin-top: 2px;
-        margin-bottom: 16px;
-        font-weight: 500;
+    .brand-tag {
+        display: inline-block;
+        background: #EFF6FF;
+        color: #2563EB;
+        font-size: 0.65rem;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        padding: 2px 6px;
+        border-radius: 4px;
+        border: 1px solid #BFDBFE;
+        margin-top: 3px;
+    }
+
+    /* User Profile Card in Sidebar */
+    .sidebar-user-card {
+        background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);
+        border: 1px solid var(--border-subtle);
+        border-radius: var(--radius-md);
+        padding: 14px 16px;
+        margin-bottom: 20px;
+        box-shadow: var(--shadow-sm);
+        transition: all 0.2s ease;
+    }
+    .sidebar-user-card:hover {
+        border-color: #CBD5E1;
+        box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05);
+    }
+    .user-avatar-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+    .user-avatar {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%);
+        color: #FFFFFF;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 0.88rem;
+        flex-shrink: 0;
+        box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
+    }
+    .user-details {
+        overflow: hidden;
+    }
+    .user-name {
+        font-weight: 700;
+        font-size: 0.92rem;
+        color: var(--text-primary);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .user-email {
+        font-size: 0.76rem;
+        color: var(--text-muted);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin-top: 1px;
+    }
+    .user-role-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 3px 9px;
+        border-radius: 9999px;
+        font-size: 0.70rem;
+        font-weight: 700;
+        letter-spacing: 0.03em;
+        margin-top: 8px;
+    }
+    .role-badge-admin {
+        background: #EFF6FF;
+        color: #1E40AF;
+        border: 1px solid #BFDBFE;
+    }
+    .role-badge-user {
+        background: #F0FDF4;
+        color: #166534;
+        border: 1px solid #BBF7D0;
     }
 
     /* Cards & Containers */
     .docv-card {
         background-color: #FFFFFF;
-        border: 1px solid #E2E8F0;
-        border-radius: 12px;
-        padding: 22px 26px;
-        box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
-        margin-bottom: 18px;
+        border: 1px solid var(--border-subtle);
+        border-radius: var(--radius-lg);
+        padding: 24px 28px;
+        box-shadow: var(--shadow-card);
+        margin-bottom: 20px;
+        transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+    .docv-card:hover {
+        border-color: #CBD5E1;
+        box-shadow: var(--shadow-hover);
     }
 
+    /* Metric Cards */
     .docv-metric-card {
-        background-color: #FFFFFF;
-        border: 1px solid #E2E8F0;
-        border-radius: 12px;
-        padding: 18px 22px;
-        box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+        background: #FFFFFF;
+        border: 1px solid var(--border-subtle);
+        border-radius: var(--radius-lg);
+        padding: 20px 24px;
+        box-shadow: var(--shadow-card);
         height: 100%;
         display: flex;
         flex-direction: column;
+        justify-content: space-between;
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .docv-metric-card:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-hover);
+    }
+    .metric-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 12px;
+    }
+    .metric-icon-wrap {
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
         justify-content: center;
+        font-size: 1.15rem;
     }
     .docv-metric-value {
-        font-size: 2.1rem;
-        font-weight: 750;
-        color: #0F172A;
-        line-height: 1.15;
+        font-size: 2.25rem;
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        color: var(--text-primary);
+        line-height: 1.1;
     }
     .docv-metric-label {
         font-size: 0.85rem;
-        color: #64748B;
-        font-weight: 500;
+        color: var(--text-muted);
+        font-weight: 600;
         margin-top: 6px;
+    }
+    .metric-bottom-bar {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 3.5px;
+    }
+
+    /* Welcome Hero Banner */
+    .welcome-hero {
+        background: linear-gradient(135deg, #1E40AF 0%, #1D4ED8 60%, #3B82F6 100%);
+        border-radius: var(--radius-lg);
+        padding: 28px 32px;
+        color: #FFFFFF;
+        margin-bottom: 24px;
+        box-shadow: 0 10px 25px -5px rgba(37, 99, 235, 0.25);
+        position: relative;
+        overflow: hidden;
+    }
+    .welcome-hero::after {
+        content: "";
+        position: absolute;
+        right: -30px;
+        top: -40px;
+        width: 220px;
+        height: 220px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0) 70%);
+        pointer-events: none;
+    }
+    .welcome-title {
+        font-size: 1.65rem;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        margin-bottom: 6px;
+        color: #FFFFFF;
+    }
+    .welcome-desc {
+        font-size: 0.95rem;
+        color: #DBEAFE;
+        max-width: 720px;
+        line-height: 1.5;
+        margin: 0;
     }
 
     /* Status Badges */
     .status-badge-passed {
-        background-color: #ECFDF5;
+        background-color: var(--success-bg);
         color: #065F46;
         padding: 6px 14px;
-        border-radius: 9999px;
-        font-weight: 600;
-        font-size: 0.84rem;
-        display: inline-block;
-        border: 1px solid #A7F3D0;
+        border-radius: var(--radius-pill);
+        font-weight: 700;
+        font-size: 0.82rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        border: 1px solid var(--success-border);
+        box-shadow: 0 1px 2px rgba(16, 185, 129, 0.1);
     }
     .status-badge-review {
-        background-color: #FFFBEB;
+        background-color: var(--warning-bg);
         color: #92400E;
         padding: 6px 14px;
-        border-radius: 9999px;
-        font-weight: 600;
-        font-size: 0.84rem;
-        display: inline-block;
-        border: 1px solid #FDE68A;
+        border-radius: var(--radius-pill);
+        font-weight: 700;
+        font-size: 0.82rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        border: 1px solid var(--warning-border);
+        box-shadow: 0 1px 2px rgba(245, 158, 11, 0.1);
     }
     .status-badge-inconsistent {
-        background-color: #FEF2F2;
+        background-color: var(--danger-bg);
         color: #991B1B;
         padding: 6px 14px;
-        border-radius: 9999px;
-        font-weight: 600;
-        font-size: 0.84rem;
-        display: inline-block;
-        border: 1px solid #FECACA;
+        border-radius: var(--radius-pill);
+        font-weight: 700;
+        font-size: 0.82rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        border: 1px solid var(--danger-border);
+        box-shadow: 0 1px 2px rgba(239, 68, 68, 0.1);
     }
     .status-badge-unable {
         background-color: #F1F5F9;
         color: #334155;
         padding: 6px 14px;
-        border-radius: 9999px;
-        font-weight: 600;
-        font-size: 0.84rem;
-        display: inline-block;
+        border-radius: var(--radius-pill);
+        font-weight: 700;
+        font-size: 0.82rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
         border: 1px solid #CBD5E1;
     }
 
     /* Regulatory Notice Box */
     .regulatory-box {
-        background-color: #F8FAFC;
+        background: #FFFFFF;
         border-left: 4px solid #3B82F6;
-        padding: 14px 18px;
-        border-radius: 8px;
+        border-top: 1px solid var(--border-subtle);
+        border-right: 1px solid var(--border-subtle);
+        border-bottom: 1px solid var(--border-subtle);
+        padding: 16px 20px;
+        border-radius: var(--radius-md);
         color: #1E3A8A;
         font-size: 0.86rem;
-        line-height: 1.5;
-        margin: 18px 0;
-        border-top: 1px solid #E2E8F0;
-        border-right: 1px solid #E2E8F0;
-        border-bottom: 1px solid #E2E8F0;
+        line-height: 1.55;
+        margin: 22px 0 14px 0;
+        box-shadow: var(--shadow-sm);
     }
 
     /* Buttons & Form Controls */
     button[kind="primary"] {
-        background-color: #1E40AF !important;
-        border-color: #1E40AF !important;
-        border-radius: 8px !important;
+        background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%) !important;
+        border: none !important;
+        border-radius: var(--radius-sm) !important;
         font-weight: 600 !important;
-        padding: 0.5rem 1.25rem !important;
+        padding: 0.55rem 1.35rem !important;
+        box-shadow: 0 2px 6px rgba(37, 99, 235, 0.3) !important;
+        transition: all 0.2s ease !important;
+        letter-spacing: -0.01em !important;
     }
     button[kind="primary"]:hover {
-        background-color: #1D4ED8 !important;
-        border-color: #1D4ED8 !important;
+        background: linear-gradient(135deg, #1D4ED8 0%, #1E40AF 100%) !important;
+        box-shadow: 0 6px 16px rgba(37, 99, 235, 0.4) !important;
+        transform: translateY(-1px) !important;
+    }
+    button[kind="primary"]:active {
+        transform: translateY(0px) !important;
     }
 
-    /* ---- Split-Screen Auth Layout (No raw HTML leaks, zero indentation) ---- */
-    .auth-wrapper {
-        margin: 0 auto;
-        max-width: 1040px;
-        border-radius: 16px;
-        overflow: hidden;
-        box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.08), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
-        background: #FFFFFF;
-        border: 1px solid #E2E8F0;
+    button[kind="secondary"] {
+        background: #FFFFFF !important;
+        border: 1.5px solid var(--border-subtle) !important;
+        border-radius: var(--radius-sm) !important;
+        font-weight: 600 !important;
+        color: var(--text-primary) !important;
+        box-shadow: var(--shadow-sm) !important;
+        transition: all 0.2s ease !important;
     }
+    button[kind="secondary"]:hover {
+        border-color: #94A3B8 !important;
+        background-color: #F8FAFC !important;
+        transform: translateY(-1px) !important;
+    }
+
+    /* Text Inputs, Passwords, Textareas */
+    [data-testid="stTextInput"] input, [data-testid="stTextArea"] textarea {
+        border-radius: var(--radius-sm) !important;
+        border: 1.5px solid var(--border-subtle) !important;
+        padding: 0.55rem 0.85rem !important;
+        font-size: 0.92rem !important;
+        transition: all 0.2s ease !important;
+        background-color: #FFFFFF !important;
+    }
+    [data-testid="stTextInput"] input:focus, [data-testid="stTextArea"] textarea:focus {
+        border-color: var(--primary) !important;
+        box-shadow: 0 0 0 3.5px var(--primary-glow) !important;
+        outline: none !important;
+    }
+
+    /* Selectboxes */
+    [data-testid="stSelectbox"] > div > div {
+        border-radius: var(--radius-sm) !important;
+        border: 1.5px solid var(--border-subtle) !important;
+        transition: all 0.2s ease !important;
+    }
+    [data-testid="stSelectbox"] > div > div:hover {
+        border-color: #CBD5E1 !important;
+    }
+
+    /* Segmented Radio Buttons */
+    [data-testid="stRadio"] div[role="radiogroup"] {
+        background: #EEF2F6;
+        padding: 4px;
+        border-radius: var(--radius-md);
+        display: flex;
+        gap: 4px;
+        border: 1px solid var(--border-subtle);
+    }
+    [data-testid="stRadio"] div[role="radiogroup"] > label {
+        background: transparent;
+        border-radius: 8px;
+        padding: 7px 16px;
+        font-weight: 600;
+        font-size: 0.86rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        margin: 0 !important;
+    }
+    [data-testid="stRadio"] div[role="radiogroup"] > label[data-checked="true"],
+    [data-testid="stRadio"] div[role="radiogroup"] > label:has(input:checked) {
+        background: #FFFFFF !important;
+        color: var(--primary) !important;
+        box-shadow: 0 1px 4px rgba(15, 23, 42, 0.08) !important;
+    }
+
+    /* Sidebar Radio Navigation */
+    [data-testid="stSidebar"] [data-testid="stRadio"] div[role="radiogroup"] {
+        background: transparent !important;
+        border: none !important;
+        padding: 0 !important;
+        flex-direction: column !important;
+        gap: 6px !important;
+    }
+    [data-testid="stSidebar"] [data-testid="stRadio"] div[role="radiogroup"] > label {
+        padding: 9px 14px !important;
+        border-radius: 10px !important;
+        font-size: 0.90rem !important;
+        color: #334155 !important;
+        font-weight: 600 !important;
+        transition: all 0.15s ease !important;
+        border: 1px solid transparent !important;
+    }
+    [data-testid="stSidebar"] [data-testid="stRadio"] div[role="radiogroup"] > label:hover {
+        background: #F1F5F9 !important;
+        color: #0F172A !important;
+    }
+    [data-testid="stSidebar"] [data-testid="stRadio"] div[role="radiogroup"] > label:has(input:checked) {
+        background: #EFF6FF !important;
+        color: #1E40AF !important;
+        border: 1px solid #BFDBFE !important;
+        box-shadow: 0 1px 3px rgba(37, 99, 235, 0.08) !important;
+    }
+
+    /* ---- Split-Screen Auth Layout ---- */
     .auth-hero-banner {
-        background: linear-gradient(145deg, #0F172A 0%, #1E3A8A 55%, #1D4ED8 100%);
-        border-radius: 14px;
-        padding: 40px 32px;
+        background: linear-gradient(135deg, #09122C 0%, #112D4E 40%, #19376D 75%, #2563EB 100%);
+        border-radius: var(--radius-lg);
+        padding: 42px 36px;
         color: #FFFFFF;
         height: 100%;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        box-shadow: 0 20px 40px -15px rgba(15, 23, 42, 0.25);
+        position: relative;
+        overflow: hidden;
+    }
+    .auth-badge-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: rgba(255, 255, 255, 0.12);
+        border: 1px solid rgba(255, 255, 255, 0.22);
+        padding: 4px 12px;
+        border-radius: 9999px;
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: #93C5FD;
+        margin-bottom: 14px;
+        backdrop-filter: blur(8px);
     }
     .auth-brand-logo {
-        font-size: 2.1rem;
+        font-size: 2.35rem;
         font-weight: 900;
         letter-spacing: -0.04em;
         color: #FFFFFF;
-        margin-bottom: 6px;
+        line-height: 1.1;
+        margin-bottom: 8px;
     }
     .auth-brand-logo span {
-        color: #93C5FD;
+        color: #60A5FA;
     }
     .auth-tagline {
-        font-size: 0.95rem;
+        font-size: 0.96rem;
         color: #BFDBFE;
         font-weight: 400;
-        line-height: 1.45;
+        line-height: 1.5;
         margin-bottom: 24px;
     }
-    .auth-feature-list {
-        margin: 20px 0;
-    }
-    .auth-feature-row {
-        margin-bottom: 14px;
-        font-size: 0.88rem;
+    .auth-feature-glass {
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: var(--radius-md);
+        padding: 12px 16px;
+        margin-bottom: 10px;
+        backdrop-filter: blur(8px);
+        font-size: 0.86rem;
         color: #E2E8F0;
         line-height: 1.45;
+        transition: transform 0.2s ease, background 0.2s ease;
     }
-    .auth-feature-row strong {
+    .auth-feature-glass:hover {
+        background: rgba(255, 255, 255, 0.12);
+        transform: translateX(4px);
+    }
+    .auth-feature-glass strong {
         color: #FFFFFF;
     }
     .auth-trust-box {
         margin-top: 24px;
-        background: rgba(255, 255, 255, 0.08);
-        border: 1px solid rgba(255, 255, 255, 0.18);
-        border-radius: 8px;
-        padding: 10px 14px;
-        font-size: 0.78rem;
+        background: rgba(15, 23, 42, 0.45);
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        border-radius: var(--radius-sm);
+        padding: 12px 16px;
+        font-size: 0.80rem;
         color: #BFDBFE;
+        line-height: 1.45;
+    }
+
+    /* SVG Scanning Laser Animation */
+    @keyframes scanLaser {
+        0% { transform: translateY(0px); opacity: 0; }
+        15% { opacity: 1; }
+        85% { opacity: 1; }
+        100% { transform: translateY(92px); opacity: 0; }
+    }
+    .scan-beam-line {
+        animation: scanLaser 3s ease-in-out infinite;
     }
 
     /* ---- Auth Form Card ---- */
     .auth-form-card {
         background: #FFFFFF;
-        border-radius: 14px;
-        padding: 32px 30px;
-        border: 1px solid #E2E8F0;
+        border-radius: var(--radius-lg);
+        padding: 34px 32px;
+        border: 1px solid var(--border-subtle);
+        box-shadow: var(--shadow-card);
     }
     .auth-form-title {
-        font-size: 1.45rem;
-        font-weight: 750;
-        color: #0F172A;
+        font-size: 1.55rem;
+        font-weight: 800;
+        letter-spacing: -0.025em;
+        color: var(--text-primary);
         margin-bottom: 4px;
     }
     .auth-form-subtitle {
-        font-size: 0.86rem;
-        color: #64748B;
-        margin-bottom: 18px;
+        font-size: 0.88rem;
+        color: var(--text-muted);
+        margin-bottom: 22px;
     }
 
     /* Token display box */
     .token-display-box {
         background: #F0F9FF;
         border: 1.5px solid #0EA5E9;
-        border-radius: 8px;
-        padding: 12px 16px;
-        font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+        border-radius: var(--radius-sm);
+        padding: 14px 18px;
+        font-family: 'JetBrains Mono', Consolas, monospace;
         font-size: 0.88rem;
         word-break: break-all;
         color: #0C4A6E;
-        margin: 10px 0;
+        margin: 12px 0;
+        box-shadow: 0 2px 6px rgba(14, 165, 233, 0.1);
     }
 
-    /* Online indicator */
+    /* Online radar pulse dot */
+    .pulse-dot-container {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+    }
     .system-online-dot {
+        position: relative;
         display: inline-block;
         width: 8px;
         height: 8px;
         background: #10B981;
         border-radius: 50%;
-        margin-right: 6px;
-        vertical-align: middle;
+    }
+    .system-online-dot::after {
+        content: "";
+        position: absolute;
+        top: -3px;
+        left: -3px;
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        border: 2px solid #10B981;
+        opacity: 0.7;
+        animation: radarPulse 2s cubic-bezier(0.24, 0, 0.38, 1) infinite;
+    }
+    @keyframes radarPulse {
+        0% { transform: scale(0.6); opacity: 0.9; }
+        100% { transform: scale(2.2); opacity: 0; }
     }
 
-    /* Activity item */
+    /* Activity timeline item */
     .activity-item {
         display: flex;
         align-items: flex-start;
-        padding: 12px 0;
+        padding: 14px 0;
         border-bottom: 1px solid #F1F5F9;
+        transition: background 0.15s ease;
     }
     .activity-item:last-child {
         border-bottom: none;
     }
     .activity-icon {
-        width: 32px;
-        height: 32px;
-        border-radius: 8px;
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
         background: #EFF6FF;
         color: #1E40AF;
         display: flex;
         align-items: center;
         justify-content: center;
-        margin-right: 12px;
-        font-size: 0.95rem;
+        margin-right: 14px;
+        font-size: 1.05rem;
         flex-shrink: 0;
+        box-shadow: 0 1px 3px rgba(37, 99, 235, 0.1);
     }
     .activity-content {
         flex-grow: 1;
     }
     .activity-title {
-        font-size: 0.88rem;
-        font-weight: 600;
-        color: #0F172A;
+        font-size: 0.90rem;
+        font-weight: 700;
+        color: var(--text-primary);
     }
     .activity-time {
         font-size: 0.76rem;
-        color: #94A3B8;
-        margin-top: 2px;
+        color: var(--text-muted);
+        margin-top: 3px;
+    }
+
+    /* File Dropzone Cue */
+    .upload-zone-hint {
+        background: #F8FAFC;
+        border: 2px dashed #CBD5E1;
+        border-radius: var(--radius-md);
+        padding: 18px 20px;
+        text-align: center;
+        margin-bottom: 14px;
+        transition: all 0.2s ease;
+    }
+    .upload-zone-hint:hover {
+        border-color: #3B82F6;
+        background: #EFF6FF;
+    }
+
+    /* Dataframe Table Container */
+    [data-testid="stDataFrame"] {
+        border-radius: var(--radius-md) !important;
+        overflow: hidden !important;
+        border: 1px solid var(--border-subtle) !important;
+        box-shadow: var(--shadow-sm) !important;
+    }
+
+    /* Streamlit Tabs */
+    [data-testid="stTabs"] [data-baseweb="tab-list"] {
+        gap: 8px;
+        border-bottom: 2px solid var(--border-subtle) !important;
+    }
+    [data-testid="stTabs"] [data-baseweb="tab"] {
+        font-weight: 600 !important;
+        font-size: 0.90rem !important;
+        color: var(--text-muted) !important;
+        padding: 10px 18px !important;
+        border-radius: 8px 8px 0 0 !important;
+        transition: all 0.2s ease !important;
+    }
+    [data-testid="stTabs"] [aria-selected="true"] {
+        color: var(--primary) !important;
+        border-bottom: 2.5px solid var(--primary) !important;
+    }
+
+    /* Streamlit Expanders */
+    [data-testid="stExpander"] {
+        background: #FFFFFF !important;
+        border: 1px solid var(--border-subtle) !important;
+        border-radius: var(--radius-md) !important;
+        box-shadow: var(--shadow-sm) !important;
+        margin-bottom: 14px !important;
+    }
+    [data-testid="stExpander"] summary {
+        font-weight: 600 !important;
+        font-size: 0.90rem !important;
+        color: var(--text-primary) !important;
+        padding: 12px 16px !important;
     }
 </style>
 """).strip(), unsafe_allow_html=True)
@@ -370,40 +828,74 @@ def render_authentication_view():
     Renders a premium, modern, split-screen authentication screen.
     Guarantees zero raw HTML leaks, no top whitespace, and clean responsive alignment.
     """
-    col_left, col_right = st.columns([1.1, 1.0], gap="medium")
+    col_left, col_right = st.columns([1.15, 1.0], gap="large")
 
-    # ---- LEFT BRANDING PANEL ----
+    # ---- LEFT BRANDING HERO PANEL ----
     with col_left:
-        # SVG Document Verification Illustration
+        # High-Fidelity SVG Document Verification Graphic with Laser Beam
         svg_illustration = (
-            '<svg width="100%" height="150" viewBox="0 0 280 150" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom: 16px;">'
-            '<rect x="20" y="10" width="150" height="130" rx="8" fill="#FFFFFF" fill-opacity="0.10" stroke="#60A5FA" stroke-width="1.5"/>'
-            '<rect x="36" y="28" width="65" height="7" rx="3.5" fill="#93C5FD"/>'
-            '<rect x="36" y="44" width="115" height="4" rx="2" fill="#DBEAFE" fill-opacity="0.75"/>'
-            '<rect x="36" y="55" width="100" height="4" rx="2" fill="#DBEAFE" fill-opacity="0.75"/>'
-            '<rect x="36" y="66" width="90" height="4" rx="2" fill="#DBEAFE" fill-opacity="0.75"/>'
-            '<rect x="36" y="82" width="115" height="20" rx="4" fill="#1E3A8A" stroke="#3B82F6" stroke-width="1"/>'
-            '<rect x="44" y="90" width="55" height="4" rx="2" fill="#60A5FA"/>'
-            '<circle cx="190" cy="95" r="32" fill="#1E40AF" stroke="#60A5FA" stroke-width="2"/>'
-            '<path d="M178 95L186 103L202 87" stroke="#34D399" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>'
+            '<svg width="100%" height="160" viewBox="0 0 320 160" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom: 20px; filter: drop-shadow(0 12px 24px rgba(0,0,0,0.3));">'
+            '<defs>'
+            '<linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">'
+            '<stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.18"/>'
+            '<stop offset="100%" stop-color="#FFFFFF" stop-opacity="0.04"/>'
+            '</linearGradient>'
+            '<linearGradient id="laserGrad" x1="0%" y1="0%" x2="100%" y2="0%">'
+            '<stop offset="0%" stop-color="#38BDF8" stop-opacity="0"/>'
+            '<stop offset="50%" stop-color="#38BDF8" stop-opacity="1"/>'
+            '<stop offset="100%" stop-color="#38BDF8" stop-opacity="0"/>'
+            '</linearGradient>'
+            '</defs>'
+            '<!-- Document Background -->'
+            '<rect x="25" y="15" width="170" height="130" rx="12" fill="url(#cardGrad)" stroke="#60A5FA" stroke-width="1.5"/>'
+            '<!-- Document Header Badge -->'
+            '<rect x="42" y="32" width="70" height="8" rx="4" fill="#93C5FD"/>'
+            '<rect x="155" y="30" width="24" height="24" rx="6" fill="#3B82F6" fill-opacity="0.3"/>'
+            '<path d="M162 42L166 46L173 39" stroke="#60A5FA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>'
+            '<!-- Simulated Document Text Lines -->'
+            '<rect x="42" y="52" width="136" height="5" rx="2.5" fill="#DBEAFE" fill-opacity="0.8"/>'
+            '<rect x="42" y="65" width="118" height="5" rx="2.5" fill="#DBEAFE" fill-opacity="0.8"/>'
+            '<rect x="42" y="78" width="95" height="5" rx="2.5" fill="#DBEAFE" fill-opacity="0.8"/>'
+            '<!-- Credential Seal Pill -->'
+            '<rect x="42" y="96" width="136" height="24" rx="6" fill="#1E3A8A" stroke="#3B82F6" stroke-width="1.2"/>'
+            '<circle cx="56" cy="108" r="5" fill="#10B981"/>'
+            '<rect x="68" y="105" width="60" height="6" rx="3" fill="#93C5FD"/>'
+            '<!-- Animated Laser Scanning Beam -->'
+            '<g class="scan-beam-line">'
+            '<line x1="26" y1="25" x2="194" y2="25" stroke="url(#laserGrad)" stroke-width="3"/>'
+            '<line x1="26" y1="25" x2="194" y2="25" stroke="#BAE6FD" stroke-width="1" stroke-dasharray="2 4"/>'
+            '</g>'
+            '<!-- Enterprise Verification Badge Shield -->'
+            '<circle cx="230" cy="100" r="38" fill="#1E40AF" stroke="#60A5FA" stroke-width="2.5"/>'
+            '<circle cx="230" cy="100" r="30" fill="#1D4ED8"/>'
+            '<path d="M216 100L226 110L245 90" stroke="#34D399" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>'
             '</svg>'
         )
 
         left_html = textwrap.dedent(f"""
 <div class="auth-hero-banner">
 <div>
+<div class="auth-badge-pill">
+<span class="system-online-dot"></span> ENTERPRISE AI VERIFICATION
+</div>
 <div class="auth-brand-logo">Doc<span>Verify</span></div>
-<div class="auth-tagline">Automated Document Verification &amp; Consistency Review System</div>
+<div class="auth-tagline">Automated Document Verification &amp; Consistency Review Platform</div>
 {svg_illustration}
-<div class="auth-feature-list">
-<div class="auth-feature-row">🔍 <strong>Multi-Format Ingestion:</strong> Native &amp; scanned PDF, PNG, JPG with automated deskew and OCR.</div>
-<div class="auth-feature-row">🛡️ <strong>Production Rule Engine:</strong> Forward-chaining deterministic validation of dates, identifiers, and schemas.</div>
-<div class="auth-feature-row">🤖 <strong>Supervised ML Classification:</strong> Category prediction trained on real-world document corpora.</div>
-<div class="auth-feature-row">📑 <strong>Certified Verification Reports:</strong> Downloadable audit dossiers with unique reference IDs.</div>
+<div class="auth-feature-glass">
+🔍 <strong>Multi-Format Ingestion:</strong> Native &amp; scanned PDF, PNG, JPG with automated deskew and Tesseract OCR.
+</div>
+<div class="auth-feature-glass">
+🛡️ <strong>Production Rule Engine:</strong> Forward-chaining deterministic validation of chronological dates, identifiers, and schemas.
+</div>
+<div class="auth-feature-glass">
+🤖 <strong>Supervised ML Classification:</strong> Category prediction trained on real-world document corpora without hallucinations.
+</div>
+<div class="auth-feature-glass">
+📑 <strong>Certified Verification Reports:</strong> Downloadable official audit dossiers with cryptographic reference IDs.
 </div>
 </div>
 <div class="auth-trust-box">
-🔒 <strong>Enterprise Security:</strong> PBKDF2-HMAC-SHA256 password hashing with unique random salts &amp; strict multi-tenant tenant isolation.
+🔒 <strong>Bank-Grade Security:</strong> PBKDF2-HMAC-SHA256 password hashing with unique random salts &amp; strict multi-tenant tenant isolation.
 </div>
 </div>
 """).strip()
@@ -424,8 +916,10 @@ def render_authentication_view():
         # ----------------------------------------------------------------
         if auth_mode == "Sign In":
             st.markdown(textwrap.dedent("""
+<div class="auth-form-card">
 <div class="auth-form-title">Welcome back</div>
-<div class="auth-form-subtitle">Sign in to your DocVerify account to continue</div>
+<div class="auth-form-subtitle">Sign in to your DocVerify enterprise account to continue</div>
+</div>
 """).strip(), unsafe_allow_html=True)
 
             with st.form("login_form", clear_on_submit=False):
@@ -456,11 +950,11 @@ def render_authentication_view():
                             st.error("Invalid email or password. Please verify your credentials.")
 
             # Collapsible Demo Credentials for Testing Convenience
-            with st.expander("🔖 Quick Demo & Evaluator Sign-In"):
-                st.caption("Pre-configured accounts for rapid demonstration:")
+            with st.expander("⚡ 1-Click Demo & Evaluator Quick Sign-In", expanded=True):
+                st.caption("Pre-configured enterprise accounts for rapid evaluation:")
                 col_d1, col_d2 = st.columns(2)
                 with col_d1:
-                    if st.button("Demo Applicant", use_container_width=True, key="demo_applicant_btn"):
+                    if st.button("👤 Demo Applicant", use_container_width=True, key="demo_applicant_btn"):
                         user = database.authenticate_user("applicant@college.edu", "User@DocVerify2024!")
                         if user:
                             st.session_state["user"] = user
@@ -469,8 +963,7 @@ def render_authentication_view():
                         else:
                             st.warning("Demo applicant account not found in database.")
                 with col_d2:
-                    if st.button("Demo Officer (Admin)", use_container_width=True, key="demo_admin_btn"):
-                        # Try admin credentials
+                    if st.button("🛡️ Demo Officer (Admin)", use_container_width=True, key="demo_admin_btn"):
                         admin = database.authenticate_user("admin@docverify.gov.in", "Admin@DocVerify2024!")
                         if not admin:
                             env_email = os.environ.get("DOCVERIFY_ADMIN_EMAIL", "admin@docverify.gov.in")
@@ -489,8 +982,10 @@ def render_authentication_view():
         # ----------------------------------------------------------------
         elif auth_mode == "Create Account":
             st.markdown(textwrap.dedent("""
+<div class="auth-form-card">
 <div class="auth-form-title">Create your applicant account</div>
 <div class="auth-form-subtitle">Register to submit credentials for automated consistency verification</div>
+</div>
 """).strip(), unsafe_allow_html=True)
 
             with st.form("register_form", clear_on_submit=False):
@@ -530,7 +1025,6 @@ def render_authentication_view():
                         for err in errors:
                             st.error(err)
                     else:
-                        # Public registration STRICTLY assigns role="USER" (Applicant)
                         success, resp_msg, _ = database.create_user(
                             email=reg_email,
                             password=reg_pwd,
@@ -548,8 +1042,10 @@ def render_authentication_view():
         # ----------------------------------------------------------------
         else:
             st.markdown(textwrap.dedent("""
+<div class="auth-form-card">
 <div class="auth-form-title">Reset your password</div>
 <div class="auth-form-subtitle">Generate a time-limited (1-hour), single-use cryptographic reset token</div>
+</div>
 """).strip(), unsafe_allow_html=True)
 
             st.markdown("##### Step 1 — Request Reset Token")
@@ -575,7 +1071,7 @@ def render_authentication_view():
                 tok = st.session_state["_reset_token_display"]
                 token_box = textwrap.dedent(f"""
 <div class="token-display-box">
-<strong>Your Reset Token:</strong><br>{tok}
+<strong>Your Single-Use Reset Token:</strong><br>{tok}
 </div>
 """).strip()
                 st.markdown(token_box, unsafe_allow_html=True)
@@ -611,8 +1107,8 @@ def render_authentication_view():
 
         # Footer
         st.markdown(textwrap.dedent("""
-<div style="text-align: center; margin-top: 24px; font-size: 0.76rem; color: #94A3B8;">
-DocVerify &copy; 2024 &nbsp;|&nbsp; Automated Document Verification &amp; Consistency Review
+<div style="text-align: center; margin-top: 26px; font-size: 0.78rem; color: #94A3B8;">
+DocVerify &copy; 2024 &nbsp;|&nbsp; Enterprise Document Consistency &amp; Forensics Platform
 </div>
 """).strip(), unsafe_allow_html=True)
 
@@ -623,7 +1119,7 @@ if not st.session_state.get("user"):
     st.stop()
 
 # Current Authenticated User Context
-current_user = st.session_state["user"]
+current_user = st.session_state.get("user") or {}
 is_admin = (current_user.get("role") == "ADMIN")
 
 
@@ -633,24 +1129,36 @@ is_admin = (current_user.get("role") == "ADMIN")
 
 # Sidebar Brand Header
 st.sidebar.markdown(textwrap.dedent("""
-<div style="margin-bottom: 14px;">
-    <h2 class="brand-title">Doc<span>Verify</span></h2>
-    <div class="brand-subtitle">Automated Document Consistency</div>
+<div class="brand-container">
+    <div class="brand-icon-box">🛡️</div>
+    <div>
+        <h2 class="brand-title">Doc<span>Verify</span></h2>
+        <span class="brand-tag">Enterprise AI</span>
+    </div>
 </div>
 """).strip(), unsafe_allow_html=True)
 
 # User Profile Card in Sidebar
-role_badge_bg = "#DBEAFE" if is_admin else "#F1F5F9"
-role_badge_color = "#1E40AF" if is_admin else "#475569"
+role_class = "role-badge-admin" if is_admin else "role-badge-user"
 role_title = "VERIFICATION OFFICER" if is_admin else "APPLICANT"
+role_icon = "🛡️" if is_admin else "👤"
+
+# Initial letters for avatar
+full_name = current_user.get('full_name', 'User')
+initials = "".join([part[0].upper() for part in full_name.split()[:2]]) if full_name else "U"
 
 sidebar_profile = textwrap.dedent(f"""
-<div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px; padding: 12px 14px; margin-bottom: 18px;">
-    <div style="font-weight: 650; font-size: 0.92rem; color: #0F172A;">{current_user['full_name']}</div>
-    <div style="font-size: 0.78rem; color: #64748B; margin-top: 1px;">{current_user['email']}</div>
-    <div style="margin-top: 6px;">
-        <span style="background: {role_badge_bg}; color: {role_badge_color}; padding: 3px 9px; border-radius: 4px; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.02em;">
-            {role_title}
+<div class="sidebar-user-card">
+    <div class="user-avatar-row">
+        <div class="user-avatar">{initials}</div>
+        <div class="user-details">
+            <div class="user-name" title="{full_name}">{full_name}</div>
+            <div class="user-email" title="{current_user.get('email', '')}">{current_user.get('email', '')}</div>
+        </div>
+    </div>
+    <div>
+        <span class="user-role-badge {role_class}">
+            {role_icon} {role_title}
         </span>
     </div>
 </div>
@@ -684,7 +1192,7 @@ if st.session_state.get("nav_page") in nav_options:
 
 active_nav = st.sidebar.radio("Navigation", nav_options, index=selected_nav_idx, label_visibility="collapsed")
 
-st.sidebar.markdown("---")
+st.sidebar.markdown("<div style='height: 12px;'></div>", unsafe_allow_html=True)
 
 if st.sidebar.button("Sign Out", use_container_width=True):
     st.session_state["user"] = None
@@ -695,8 +1203,10 @@ if st.sidebar.button("Sign Out", use_container_width=True):
     st.rerun()
 
 st.sidebar.markdown(textwrap.dedent("""
-<div style="font-size: 0.74rem; color: #94A3B8; margin-top: 8px;">
-    <span class="system-online-dot"></span> System Online &nbsp;|&nbsp; DocVerify v2.5
+<div style="font-size: 0.74rem; color: #94A3B8; margin-top: 14px; padding-left: 2px;">
+    <span class="pulse-dot-container">
+        <span class="system-online-dot"></span> System Online &nbsp;|&nbsp; DocVerify v2.5
+    </span>
 </div>
 """).strip(), unsafe_allow_html=True)
 
@@ -706,13 +1216,21 @@ st.sidebar.markdown(textwrap.dedent("""
 # ===========================================================================
 
 if not is_admin and active_nav == "Dashboard":
-    col_dash_title, col_dash_btn = st.columns([3, 1])
-    with col_dash_title:
-        st.markdown(f"## Welcome back, {current_user['full_name']}")
-        st.markdown("<p style='color: #64748B; font-size: 0.95rem; margin-top: -8px;'>Verify official credentials, review consistency findings, and download certified reports.</p>", unsafe_allow_html=True)
+    # Hero Welcome Banner
+    st.markdown(textwrap.dedent(f"""
+<div class="welcome-hero">
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 14px;">
+        <div>
+            <div class="welcome-title">Welcome back, {current_user['full_name']} 👋</div>
+            <div class="welcome-desc">Verify official credentials, review consistency findings, inspect forensics, and download certified reports in seconds.</div>
+        </div>
+    </div>
+</div>
+""").strip(), unsafe_allow_html=True)
 
-    with col_dash_btn:
-        if st.button("+ Upload Document", type="primary", use_container_width=True):
+    col_btn_l, col_btn_r = st.columns([3.5, 1.2])
+    with col_btn_r:
+        if st.button("+ Upload New Document", type="primary", use_container_width=True):
             st.session_state["nav_page"] = "Upload Document"
             st.rerun()
 
@@ -727,57 +1245,85 @@ if not is_admin and active_nav == "Dashboard":
     with m1:
         st.markdown(textwrap.dedent(f"""
 <div class="docv-metric-card">
-    <div class="docv-metric-value">{total_docs}</div>
-    <div class="docv-metric-label">Total Documents Submitted</div>
+    <div class="metric-header">
+        <div class="metric-icon-wrap" style="background: #EFF6FF; color: #2563EB;">📄</div>
+        <span style="font-size: 0.72rem; font-weight: 700; color: #3B82F6; background: #EFF6FF; padding: 2px 8px; border-radius: 9999px;">TOTAL</span>
+    </div>
+    <div>
+        <div class="docv-metric-value">{total_docs}</div>
+        <div class="docv-metric-label">Documents Submitted</div>
+    </div>
+    <div class="metric-bottom-bar" style="background: #2563EB;"></div>
 </div>
 """).strip(), unsafe_allow_html=True)
     with m2:
         st.markdown(textwrap.dedent(f"""
 <div class="docv-metric-card">
-    <div class="docv-metric-value" style="color: #065F46;">{passed_docs}</div>
-    <div class="docv-metric-label">Consistency Checks Passed</div>
+    <div class="metric-header">
+        <div class="metric-icon-wrap" style="background: #ECFDF5; color: #10B981;">✅</div>
+        <span style="font-size: 0.72rem; font-weight: 700; color: #10B981; background: #ECFDF5; padding: 2px 8px; border-radius: 9999px;">PASSED</span>
+    </div>
+    <div>
+        <div class="docv-metric-value" style="color: #065F46;">{passed_docs}</div>
+        <div class="docv-metric-label">Consistency Passed</div>
+    </div>
+    <div class="metric-bottom-bar" style="background: #10B981;"></div>
 </div>
 """).strip(), unsafe_allow_html=True)
     with m3:
         st.markdown(textwrap.dedent(f"""
 <div class="docv-metric-card">
-    <div class="docv-metric-value" style="color: #92400E;">{review_docs}</div>
-    <div class="docv-metric-label">Needs Manual Review</div>
+    <div class="metric-header">
+        <div class="metric-icon-wrap" style="background: #FFFBEB; color: #F59E0B;">⏳</div>
+        <span style="font-size: 0.72rem; font-weight: 700; color: #F59E0B; background: #FFFBEB; padding: 2px 8px; border-radius: 9999px;">REVIEW</span>
+    </div>
+    <div>
+        <div class="docv-metric-value" style="color: #92400E;">{review_docs}</div>
+        <div class="docv-metric-label">Needs Manual Review</div>
+    </div>
+    <div class="metric-bottom-bar" style="background: #F59E0B;"></div>
 </div>
 """).strip(), unsafe_allow_html=True)
     with m4:
         st.markdown(textwrap.dedent(f"""
 <div class="docv-metric-card">
-    <div class="docv-metric-value" style="color: #991B1B;">{inconsistent_docs}</div>
-    <div class="docv-metric-label">Inconsistencies Detected</div>
+    <div class="metric-header">
+        <div class="metric-icon-wrap" style="background: #FEF2F2; color: #EF4444;">⚠️</div>
+        <span style="font-size: 0.72rem; font-weight: 700; color: #EF4444; background: #FEF2F2; padding: 2px 8px; border-radius: 9999px;">ISSUES</span>
+    </div>
+    <div>
+        <div class="docv-metric-value" style="color: #991B1B;">{inconsistent_docs}</div>
+        <div class="docv-metric-label">Inconsistencies Detected</div>
+    </div>
+    <div class="metric-bottom-bar" style="background: #EF4444;"></div>
 </div>
 """).strip(), unsafe_allow_html=True)
 
-    st.markdown("<div style='height: 14px;'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='height: 18px;'></div>", unsafe_allow_html=True)
 
     # Empty State vs Populated State
     if total_docs == 0:
         empty_box = textwrap.dedent("""
-<div class="docv-card" style="text-align: center; padding: 48px 24px; margin-top: 10px;">
-    <div style="font-size: 2.2rem; margin-bottom: 8px;">📄</div>
-    <div style="font-size: 1.2rem; font-weight: 700; color: #0F172A;">No documents submitted yet</div>
-    <div style="font-size: 0.9rem; color: #64748B; margin-top: 6px; max-width: 500px; margin-left: auto; margin-right: auto;">
-        Upload your first educational degree, identity document, or government certificate to run automated OCR, schema validation, and consistency checks.
+<div class="docv-card" style="text-align: center; padding: 56px 28px; margin-top: 10px;">
+    <div style="font-size: 2.8rem; margin-bottom: 12px;">📁</div>
+    <div style="font-size: 1.3rem; font-weight: 800; color: #0F172A;">No credentials submitted yet</div>
+    <div style="font-size: 0.92rem; color: #64748B; margin-top: 6px; max-width: 520px; margin-left: auto; margin-right: auto; line-height: 1.5;">
+        Upload your educational degrees, identity credentials, or government certificates to run automated Tesseract OCR, production schema validation, and consistency checks.
     </div>
 </div>
 """).strip()
         st.markdown(empty_box, unsafe_allow_html=True)
-        col_c1, col_c2, col_c3 = st.columns([1, 1, 1])
+        col_c1, col_c2, col_c3 = st.columns([1, 1.2, 1])
         with col_c2:
             if st.button("Upload Your First Document", type="primary", use_container_width=True, key="empty_upload_btn"):
                 st.session_state["nav_page"] = "Upload Document"
                 st.rerun()
     else:
         # Two Columns: Recent Documents & Recent Activity
-        col_recent, col_activity = st.columns([1.6, 1.4], gap="medium")
+        col_recent, col_activity = st.columns([1.6, 1.4], gap="large")
 
         with col_recent:
-            st.markdown("### Recent Documents")
+            st.markdown("### Recent Submissions")
             recent_rows = []
             for d in user_docs[:5]:
                 recent_rows.append({
@@ -793,7 +1339,7 @@ if not is_admin and active_nav == "Dashboard":
                 st.rerun()
 
         with col_activity:
-            st.markdown("### Recent Activity")
+            st.markdown("### Recent Activity Trail")
             activities = database.get_recent_activity_for_user(current_user["id"], limit=5)
 
             if activities:
@@ -806,13 +1352,12 @@ if not is_admin and active_nav == "Dashboard":
     <div class="activity-icon">📌</div>
     <div class="activity-content">
         <div class="activity-title">{action_name}{doc_label}</div>
-        <div style="font-size: 0.8rem; color: #475569;">{act['details']}</div>
+        <div style="font-size: 0.82rem; color: #475569; margin-top: 1px;">{act['details']}</div>
         <div class="activity-time">{time_display}</div>
     </div>
 </div>
 """).strip(), unsafe_allow_html=True)
             else:
-                # Fallback to recent document submissions
                 for d in user_docs[:4]:
                     sub_time = d["upload_timestamp"][:19].replace("T", " ")
                     st.markdown(textwrap.dedent(f"""
@@ -820,7 +1365,7 @@ if not is_admin and active_nav == "Dashboard":
     <div class="activity-icon">📄</div>
     <div class="activity-content">
         <div class="activity-title">Document Submitted: {d['filename']}</div>
-        <div style="font-size: 0.8rem; color: #475569;">Category: {d['declared_category']} | Status: {d['verification_status']}</div>
+        <div style="font-size: 0.82rem; color: #475569; margin-top: 1px;">Category: {d['declared_category']} &bull; Status: {d['verification_status']}</div>
         <div class="activity-time">{sub_time}</div>
     </div>
 </div>
@@ -829,7 +1374,7 @@ if not is_admin and active_nav == "Dashboard":
     # Regulatory Attestation Notice
     st.markdown(textwrap.dedent(f"""
 <div class="regulatory-box">
-    <strong>Regulatory Attestation Notice:</strong><br>
+    <strong>🛡️ Regulatory Compliance Attestation:</strong><br>
     {AUTHENTICITY_DISCLAIMER}
 </div>
 """).strip(), unsafe_allow_html=True)
@@ -841,9 +1386,9 @@ if not is_admin and active_nav == "Dashboard":
 
 elif not is_admin and active_nav == "Upload Document":
     st.markdown("## Upload Document for Verification")
-    st.markdown("<p style='color: #64748B; font-size: 0.95rem; margin-top: -8px;'>Upload a document to extract structured fields, validate against official schema rules, and receive an instant consistency dossier.</p>", unsafe_allow_html=True)
+    st.markdown("<p style='color: #64748B; font-size: 0.95rem; margin-top: -8px;'>Upload credentials to extract structured fields, validate against official schema rules, and receive an instant consistency dossier.</p>", unsafe_allow_html=True)
 
-    col_up_cfg, col_up_res = st.columns([1.1, 1.9], gap="medium")
+    col_up_cfg, col_up_res = st.columns([1.1, 1.9], gap="large")
 
     with col_up_cfg:
         st.markdown("#### 1. Select Document Category")
@@ -857,11 +1402,22 @@ elif not is_admin and active_nav == "Upload Document":
         req_fields = [k for k, v in schema.fields.items() if v.required]
         st.caption(f"**Required Fields:** {', '.join(req_fields)}")
 
+        st.markdown("<div style='height: 8px;'></div>", unsafe_allow_html=True)
         st.markdown("#### 2. Upload Document File")
+        
+        st.markdown(textwrap.dedent("""
+<div class="upload-zone-hint">
+    <div style="font-size: 1.4rem; margin-bottom: 4px;">☁️</div>
+    <div style="font-weight: 700; font-size: 0.92rem; color: #1E293B;">Drag and drop your file here</div>
+    <div style="font-size: 0.78rem; color: #64748B; margin-top: 2px;">Supported: PDF, PNG, JPG, JPEG &bull; Max: 10MB</div>
+</div>
+""").strip(), unsafe_allow_html=True)
+
         uploaded_file = st.file_uploader(
             "Upload File (PDF, PNG, JPG, JPEG)",
             type=["pdf", "png", "jpg", "jpeg"],
-            help="Upload clear scans or digital documents (up to 10MB)."
+            help="Upload clear scans or digital documents (up to 10MB).",
+            label_visibility="collapsed"
         )
 
         # Reference Benchmark Credential Selector for evaluator testing
@@ -945,8 +1501,8 @@ elif not is_admin and active_nav == "Upload Document":
             f_size_kb = len(uploaded_file.getvalue()) / 1024
             size_str = f"{f_size_kb / 1024:.2f} MB" if f_size_kb > 1024 else f"{f_size_kb:.1f} KB"
             st.markdown(textwrap.dedent(f"""
-<div style="background: #F1F5F9; padding: 8px 12px; border-radius: 6px; font-size: 0.82rem; margin-top: 6px;">
-    <strong>File:</strong> {uploaded_file.name} | <strong>Size:</strong> {size_str}
+<div style="background: #F8FAFC; border: 1px solid #E2E8F0; padding: 10px 14px; border-radius: 8px; font-size: 0.84rem; margin-top: 8px;">
+    <strong>Selected File:</strong> <code>{uploaded_file.name}</code> &bull; <strong>Size:</strong> {size_str}
 </div>
 """).strip(), unsafe_allow_html=True)
 
@@ -966,11 +1522,11 @@ elif not is_admin and active_nav == "Upload Document":
             except Exception as e:
                 st.caption(f"Preview unavailable: {str(e)}")
 
-        st.markdown("<div style='height: 12px;'></div>", unsafe_allow_html=True)
-        run_verify = st.button("Verify Document Consistency", type="primary", use_container_width=True)
+        st.markdown("<div style='height: 14px;'></div>", unsafe_allow_html=True)
+        run_verify = st.button("⚡ Verify Document Consistency", type="primary", use_container_width=True)
 
     with col_up_res:
-        st.markdown("#### Verification Results & Analysis")
+        st.markdown("#### Verification Results & Consistency Dossier")
 
         if run_verify:
             if not uploaded_file and not use_sample:
@@ -1081,26 +1637,26 @@ elif not is_admin and active_nav == "Upload Document":
 
             # Status Badge Rendering
             if status == STATUS_CONSISTENCY_PASSED:
-                badge_html = f'<div class="status-badge-passed">{status}</div>'
+                badge_html = f'<div class="status-badge-passed">✅ {status}</div>'
             elif status == STATUS_NEEDS_REVIEW:
-                badge_html = f'<div class="status-badge-review">{status}</div>'
+                badge_html = f'<div class="status-badge-review">⏳ {status}</div>'
             elif status == STATUS_INCONSISTENCIES:
-                badge_html = f'<div class="status-badge-inconsistent">{status}</div>'
+                badge_html = f'<div class="status-badge-inconsistent">⚠️ {status}</div>'
             else:
-                badge_html = f'<div class="status-badge-unable">{status}</div>'
+                badge_html = f'<div class="status-badge-unable">❓ {status}</div>'
 
             rec_action = outcome.recommended_actions[0] if outcome.recommended_actions else 'Document verified coherent.'
 
             result_box = textwrap.dedent(f"""
 <div class="docv-card">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 8px;">
         <div>{badge_html}</div>
-        <div style="font-size: 0.85rem; color: #64748B;">Report Ref: <code>{lp['report_ref']}</code></div>
+        <div style="font-size: 0.85rem; color: #64748B;">Report Ref: <code style="background: #F1F5F9; padding: 2px 8px; border-radius: 4px; font-weight: 600;">{lp['report_ref']}</code></div>
     </div>
-    <div style="font-size: 1.08rem; font-weight: 650; color: #0F172A; margin-bottom: 6px;">
+    <div style="font-size: 1.15rem; font-weight: 750; color: #0F172A; margin-bottom: 8px; line-height: 1.4;">
         {outcome.simple_explanation}
     </div>
-    <div style="font-size: 0.88rem; color: #475569;">
+    <div style="font-size: 0.88rem; color: #475569; background: #F8FAFC; border: 1px solid #E2E8F0; padding: 10px 14px; border-radius: 8px;">
         <strong>Recommended Next Action:</strong> {rec_action}
     </div>
 </div>
@@ -1108,7 +1664,6 @@ elif not is_admin and active_nav == "Upload Document":
             st.markdown(result_box, unsafe_allow_html=True)
 
             # Dual-Axis Uncertainty vs Inconsistency Matrix Display
-            st.markdown("<div style='height: 4px;'></div>", unsafe_allow_html=True)
             col_m1, col_m2, col_m3 = st.columns([1, 1, 1.6])
             with col_m1:
                 st.metric("Extraction Quality (X)", f"{getattr(outcome, 'extraction_quality_score', 85.0):.1f}%")
@@ -1118,13 +1673,14 @@ elif not is_admin and active_nav == "Upload Document":
                 quad = getattr(outcome, 'uncertainty_quadrant', 'QUADRANT I: VERIFIED CONSISTENT')
                 adv = getattr(outcome, 'uncertainty_advice', 'Auto-finalized. No manual delay required.')
                 st.markdown(textwrap.dedent(f"""
-<div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 6px; padding: 6px 10px; font-size: 0.8rem; margin-top: 4px;">
+<div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; padding: 8px 12px; font-size: 0.82rem; margin-top: 4px;">
     <strong style="color: #1E293B;">🧭 {quad}</strong><br/>
     <span style="color: #64748B;">{adv}</span>
 </div>
 """).strip(), unsafe_allow_html=True)
 
-            # Extracted Fields Table (Clean user-facing view, NO technical ML metrics)
+            # Extracted Fields Table
+            st.markdown("<div style='height: 8px;'></div>", unsafe_allow_html=True)
             st.markdown("##### Extracted Information")
             field_display = []
             for f_name, f_val in lp["fields"].items():
@@ -1191,7 +1747,7 @@ elif not is_admin and active_nav == "Upload Document":
             )
 
             st.download_button(
-                "Download Official Verification Report (PDF)",
+                "📥 Download Official Verification Report (PDF)",
                 data=pdf_bytes,
                 file_name=f"{lp['report_ref']}_Report.pdf",
                 mime="application/pdf",
@@ -1201,8 +1757,11 @@ elif not is_admin and active_nav == "Upload Document":
         else:
             empty_analysis = textwrap.dedent("""
 <div class="docv-card" style="text-align: center; padding: 48px 24px; color: #64748B;">
-    <div style="font-size: 1.1rem; font-weight: 600; color: #0F172A;">No document analyzed yet</div>
-    <div style="font-size: 0.88rem; margin-top: 6px;">Select a category, upload your document or benchmark preset, and click "Verify Document Consistency".</div>
+    <div style="font-size: 2.2rem; margin-bottom: 8px;">⚙️</div>
+    <div style="font-size: 1.15rem; font-weight: 700; color: #0F172A;">Ready for Document Ingestion</div>
+    <div style="font-size: 0.88rem; margin-top: 6px; max-width: 440px; margin-left: auto; margin-right: auto; line-height: 1.5;">
+        Select a category, upload your document file or test preset, and click <strong>"Verify Document Consistency"</strong> to launch the AI audit pipeline.
+    </div>
 </div>
 """).strip()
             st.markdown(empty_analysis, unsafe_allow_html=True)
@@ -1213,7 +1772,7 @@ elif not is_admin and active_nav == "Upload Document":
 # ===========================================================================
 
 elif not is_admin and active_nav == "My Documents":
-    st.markdown("## My Documents")
+    st.markdown("## My Submitted Documents")
     st.markdown("<p style='color: #64748B; font-size: 0.95rem; margin-top: -8px;'>All credentials submitted under your account are listed here with strict data isolation.</p>", unsafe_allow_html=True)
 
     docs = database.get_documents_by_user(current_user["id"])
@@ -1236,7 +1795,7 @@ elif not is_admin and active_nav == "My Documents":
         ])
         st.dataframe(df_docs, use_container_width=True, hide_index=True)
 
-        st.markdown("---")
+        st.markdown("<div style='height: 12px;'></div>", unsafe_allow_html=True)
         st.markdown("#### Document Dossier Inspector")
         doc_options = [f"#{d['id']}: {d['filename']} ({d['declared_category']})" for d in docs]
         sel_doc_str = st.selectbox("Select Document Dossier:", doc_options)
@@ -1273,7 +1832,7 @@ elif not is_admin and active_nav == "My Documents":
 # ===========================================================================
 
 elif not is_admin and active_nav == "Verification Reports":
-    st.markdown("## Verification Reports")
+    st.markdown("## Official Verification Reports")
     st.markdown("<p style='color: #64748B; font-size: 0.95rem; margin-top: -8px;'>Download official, certified PDF consistency dossiers for your verified credentials.</p>", unsafe_allow_html=True)
 
     reports = database.get_reports_for_user(current_user["id"])
@@ -1284,13 +1843,13 @@ elif not is_admin and active_nav == "Verification Reports":
             with st.container():
                 st.markdown(textwrap.dedent(f"""
 <div class="docv-card">
-    <div style="display: flex; justify-content: space-between; align-items: center;">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
         <div>
-            <div style="font-weight: 700; font-size: 1.05rem; color: #0F172A;">{r['filename']}</div>
-            <div style="font-size: 0.85rem; color: #64748B; margin-top: 2px;">
-                Category: {r['declared_category']} &nbsp;|&nbsp; Status: <code>{r['final_status']}</code>
+            <div style="font-weight: 750; font-size: 1.1rem; color: #0F172A;">{r['filename']}</div>
+            <div style="font-size: 0.86rem; color: #64748B; margin-top: 3px;">
+                Category: <strong>{r['declared_category']}</strong> &nbsp;|&nbsp; Status: <code>{r['final_status']}</code>
             </div>
-            <div style="font-size: 0.8rem; color: #94A3B8; margin-top: 4px;">
+            <div style="font-size: 0.80rem; color: #94A3B8; margin-top: 4px;">
                 Reference ID: <strong>{r['report_reference']}</strong> &nbsp;|&nbsp; Generated: {r['generated_at'][:19].replace('T', ' ')}
             </div>
         </div>
@@ -1315,14 +1874,14 @@ elif not is_admin and active_nav == "Verification Reports":
                         is_admin_report=False
                     )
                     st.download_button(
-                        label=f"Download Report PDF ({r['report_reference']})",
+                        label=f"📥 Download Report PDF ({r['report_reference']})",
                         data=pdf,
                         file_name=f"{r['report_reference']}.pdf",
                         mime="application/pdf",
                         key=f"dl_rep_{r['id']}",
                         type="primary"
                     )
-            st.markdown("<div style='height: 8px;'></div>", unsafe_allow_html=True)
+            st.markdown("<div style='height: 10px;'></div>", unsafe_allow_html=True)
 
 
 # ===========================================================================
@@ -1332,15 +1891,15 @@ elif not is_admin and active_nav == "Verification Reports":
 elif not is_admin and active_nav == "Profile":
     st.markdown("## Profile & Security Settings")
 
-    col_p1, col_p2 = st.columns(2, gap="medium")
+    col_p1, col_p2 = st.columns(2, gap="large")
     with col_p1:
         st.markdown("#### Account Information")
         st.markdown(textwrap.dedent(f"""
 <div class="docv-card">
-    <div><strong>Full Name:</strong> {current_user['full_name']}</div>
-    <div style="margin-top: 8px;"><strong>Email:</strong> {current_user['email']}</div>
-    <div style="margin-top: 8px;"><strong>Role:</strong> <code>{current_user['role']}</code></div>
-    <div style="margin-top: 8px;"><strong>Account ID:</strong> #{current_user['id']}</div>
+    <div style="font-size: 0.95rem;"><strong>Full Legal Name:</strong> {current_user['full_name']}</div>
+    <div style="margin-top: 8px; font-size: 0.95rem;"><strong>Email Address:</strong> {current_user['email']}</div>
+    <div style="margin-top: 8px; font-size: 0.95rem;"><strong>Account Role:</strong> <code>{current_user['role']}</code></div>
+    <div style="margin-top: 8px; font-size: 0.95rem;"><strong>Account Reference ID:</strong> #{current_user['id']}</div>
 </div>
 """).strip(), unsafe_allow_html=True)
 
@@ -1385,41 +1944,69 @@ elif is_admin and active_nav == "Overview":
     with a1:
         st.markdown(textwrap.dedent(f"""
 <div class="docv-metric-card">
-    <div class="docv-metric-value" style="color: #991B1B;">{stats['pending_admin_reviews']}</div>
-    <div class="docv-metric-label">Pending Officer Reviews</div>
+    <div class="metric-header">
+        <div class="metric-icon-wrap" style="background: #FEF2F2; color: #DC2626;">⏳</div>
+        <span style="font-size: 0.72rem; font-weight: 700; color: #DC2626; background: #FEF2F2; padding: 2px 8px; border-radius: 9999px;">QUEUE</span>
+    </div>
+    <div>
+        <div class="docv-metric-value" style="color: #991B1B;">{stats['pending_admin_reviews']}</div>
+        <div class="docv-metric-label">Pending Officer Reviews</div>
+    </div>
+    <div class="metric-bottom-bar" style="background: #DC2626;"></div>
 </div>
 """).strip(), unsafe_allow_html=True)
     with a2:
         st.markdown(textwrap.dedent(f"""
 <div class="docv-metric-card">
-    <div class="docv-metric-value">{stats['total_documents']}</div>
-    <div class="docv-metric-label">Total Documents Processed</div>
+    <div class="metric-header">
+        <div class="metric-icon-wrap" style="background: #EFF6FF; color: #2563EB;">📊</div>
+        <span style="font-size: 0.72rem; font-weight: 700; color: #2563EB; background: #EFF6FF; padding: 2px 8px; border-radius: 9999px;">TOTAL</span>
+    </div>
+    <div>
+        <div class="docv-metric-value">{stats['total_documents']}</div>
+        <div class="docv-metric-label">Total Documents Processed</div>
+    </div>
+    <div class="metric-bottom-bar" style="background: #2563EB;"></div>
 </div>
 """).strip(), unsafe_allow_html=True)
     with a3:
         st.markdown(textwrap.dedent(f"""
 <div class="docv-metric-card">
-    <div class="docv-metric-value" style="color: #065F46;">{stats['consistent_documents']}</div>
-    <div class="docv-metric-label">Verified Consistent</div>
+    <div class="metric-header">
+        <div class="metric-icon-wrap" style="background: #ECFDF5; color: #10B981;">✅</div>
+        <span style="font-size: 0.72rem; font-weight: 700; color: #10B981; background: #ECFDF5; padding: 2px 8px; border-radius: 9999px;">PASSED</span>
+    </div>
+    <div>
+        <div class="docv-metric-value" style="color: #065F46;">{stats['consistent_documents']}</div>
+        <div class="docv-metric-label">Verified Consistent</div>
+    </div>
+    <div class="metric-bottom-bar" style="background: #10B981;"></div>
 </div>
 """).strip(), unsafe_allow_html=True)
     with a4:
         st.markdown(textwrap.dedent(f"""
 <div class="docv-metric-card">
-    <div class="docv-metric-value" style="color: #1E40AF;">{stats['total_users']}</div>
-    <div class="docv-metric-label">Registered Accounts</div>
+    <div class="metric-header">
+        <div class="metric-icon-wrap" style="background: #EFF6FF; color: #1E40AF;">👥</div>
+        <span style="font-size: 0.72rem; font-weight: 700; color: #1E40AF; background: #EFF6FF; padding: 2px 8px; border-radius: 9999px;">USERS</span>
+    </div>
+    <div>
+        <div class="docv-metric-value" style="color: #1E40AF;">{stats['total_users']}</div>
+        <div class="docv-metric-label">Registered Accounts</div>
+    </div>
+    <div class="metric-bottom-bar" style="background: #1E40AF;"></div>
 </div>
 """).strip(), unsafe_allow_html=True)
 
-    st.markdown("<div style='height: 16px;'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='height: 18px;'></div>", unsafe_allow_html=True)
 
     st.markdown(textwrap.dedent("""
 <div class="docv-card">
-    <h4 style="margin-top: 0; color: #0F172A;">AI-First Selective Escalation Architecture</h4>
-    <p style="color: #475569; font-size: 0.9rem; line-height: 1.5;">
+    <h4 style="margin-top: 0; color: #0F172A; font-weight: 750;">AI-First Selective Escalation Architecture</h4>
+    <p style="color: #475569; font-size: 0.92rem; line-height: 1.55;">
         DocVerify processes clean documents automatically without imposing administrative delay on straightforward applicants:
     </p>
-    <ul style="color: #475569; font-size: 0.9rem; line-height: 1.6;">
+    <ul style="color: #475569; font-size: 0.90rem; line-height: 1.65;">
         <li><strong>Automated Finalization:</strong> Documents meeting all schema requirements, with high OCR clarity and zero rule contradictions, pass immediately.</li>
         <li><strong>Selective Escalation:</strong> Only documents with degraded scan clarity (&lt;60% OCR), missing required fields, contradictory dates, or unreadable formats are routed to the pending review queue.</li>
         <li><strong>Officer Intervention:</strong> Reviewers can inspect original scans, apply in-line field corrections with audit trail, request applicant resubmission, or issue formal determinations.</li>
@@ -1453,14 +2040,14 @@ elif is_admin and active_nav == "Pending Reviews":
         if doc:
             st.markdown(textwrap.dedent(f"""
 <div class="docv-card" style="margin-top: 10px;">
-    <div style="font-weight: 700; font-size: 1.1rem; color: #0F172A;">Dossier: {doc['filename']} (#{doc['id']})</div>
+    <div style="font-weight: 750; font-size: 1.15rem; color: #0F172A;">Dossier: {doc['filename']} (#{doc['id']})</div>
     <div style="font-size: 0.88rem; color: #991B1B; margin-top: 4px;">
         <strong>Escalation Reason:</strong> {doc.get('escalation_reason') or 'Flagged for Officer Review'}
     </div>
 </div>
 """).strip(), unsafe_allow_html=True)
 
-            col_adm_left, col_adm_right = st.columns([1.2, 1.8], gap="medium")
+            col_adm_left, col_adm_right = st.columns([1.2, 1.8], gap="large")
 
             with col_adm_left:
                 st.markdown("##### 1. Extracted Fields & In-Line Correction")
@@ -1598,7 +2185,7 @@ elif is_admin and active_nav == "User Management":
     st.markdown("## User Account Management")
     users = database.get_all_users()
 
-    col_u_tbl, col_u_add = st.columns([2, 1], gap="medium")
+    col_u_tbl, col_u_add = st.columns([2, 1], gap="large")
 
     with col_u_tbl:
         df_u = pd.DataFrame([
@@ -1672,15 +2259,63 @@ elif is_admin and active_nav == "System Analytics":
 
     col_m1, col_m2, col_m3, col_m4 = st.columns(4)
     with col_m1:
-        st.metric("Test Accuracy", f"{eval_data['proposed_metrics']['Accuracy']*100:.1f}%")
+        st.markdown(textwrap.dedent(f"""
+<div class="docv-metric-card">
+    <div class="metric-header">
+        <div class="metric-icon-wrap" style="background: #EFF6FF; color: #2563EB;">🎯</div>
+        <span style="font-size: 0.72rem; font-weight: 700; color: #2563EB; background: #EFF6FF; padding: 2px 8px; border-radius: 9999px;">ACCURACY</span>
+    </div>
+    <div>
+        <div class="docv-metric-value">{eval_data['proposed_metrics']['Accuracy']*100:.1f}%</div>
+        <div class="docv-metric-label">Hold-out Test Accuracy</div>
+    </div>
+    <div class="metric-bottom-bar" style="background: #2563EB;"></div>
+</div>
+""").strip(), unsafe_allow_html=True)
     with col_m2:
-        st.metric("Weighted Precision", f"{eval_data['proposed_metrics']['Precision']*100:.1f}%")
+        st.markdown(textwrap.dedent(f"""
+<div class="docv-metric-card">
+    <div class="metric-header">
+        <div class="metric-icon-wrap" style="background: #ECFDF5; color: #10B981;">📈</div>
+        <span style="font-size: 0.72rem; font-weight: 700; color: #10B981; background: #ECFDF5; padding: 2px 8px; border-radius: 9999px;">PRECISION</span>
+    </div>
+    <div>
+        <div class="docv-metric-value" style="color: #065F46;">{eval_data['proposed_metrics']['Precision']*100:.1f}%</div>
+        <div class="docv-metric-label">Weighted Precision</div>
+    </div>
+    <div class="metric-bottom-bar" style="background: #10B981;"></div>
+</div>
+""").strip(), unsafe_allow_html=True)
     with col_m3:
-        st.metric("Weighted Recall", f"{eval_data['proposed_metrics']['Recall']*100:.1f}%")
+        st.markdown(textwrap.dedent(f"""
+<div class="docv-metric-card">
+    <div class="metric-header">
+        <div class="metric-icon-wrap" style="background: #EFF6FF; color: #3B82F6;">🔍</div>
+        <span style="font-size: 0.72rem; font-weight: 700; color: #3B82F6; background: #EFF6FF; padding: 2px 8px; border-radius: 9999px;">RECALL</span>
+    </div>
+    <div>
+        <div class="docv-metric-value" style="color: #1D4ED8;">{eval_data['proposed_metrics']['Recall']*100:.1f}%</div>
+        <div class="docv-metric-label">Weighted Recall</div>
+    </div>
+    <div class="metric-bottom-bar" style="background: #3B82F6;"></div>
+</div>
+""").strip(), unsafe_allow_html=True)
     with col_m4:
-        st.metric("Weighted F1 Score", f"{eval_data['proposed_metrics']['F1 Score']*100:.1f}%")
+        st.markdown(textwrap.dedent(f"""
+<div class="docv-metric-card">
+    <div class="metric-header">
+        <div class="metric-icon-wrap" style="background: #F5F3FF; color: #7C3AED;">🏆</div>
+        <span style="font-size: 0.72rem; font-weight: 700; color: #7C3AED; background: #F5F3FF; padding: 2px 8px; border-radius: 9999px;">F1-SCORE</span>
+    </div>
+    <div>
+        <div class="docv-metric-value" style="color: #5B21B6;">{eval_data['proposed_metrics']['F1 Score']*100:.1f}%</div>
+        <div class="docv-metric-label">Weighted F1 Score</div>
+    </div>
+    <div class="metric-bottom-bar" style="background: #7C3AED;"></div>
+</div>
+""").strip(), unsafe_allow_html=True)
 
-    st.markdown("---")
+    st.markdown("<div style='height: 16px;'></div>", unsafe_allow_html=True)
     st.markdown("#### Model Benchmark: Proposed Random Forest vs Logistic Baseline")
     st.dataframe(comp_df, use_container_width=True, hide_index=True)
 
